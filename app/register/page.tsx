@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Icon, Logo } from "@/components/shared";
-import { signUp } from "@/lib/auth-client";
+import { authClient, signUp } from "@/lib/auth-client";
 
 
 export default function SignUpPage() {
@@ -21,7 +21,12 @@ export default function SignUpPage() {
     });
     console.log("Sign Up Response:", { data, error });
   }
-
+const handleGoogleLogin = async () => {
+  await authClient.signIn.social({
+    provider: "google",
+    callbackURL: "/",
+  });
+};
   return (
     <main className="grid min-h-screen grid-cols-1 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="hidden flex-col justify-between bg-[linear-gradient(rgba(54,59,101,0.68),rgba(54,59,101,0.82)),url('https://images.unsplash.com/photo-1551791506-57d68c0c6882?auto=format&fit=crop&w=1200&q=85')] bg-cover bg-center px-10 py-8 text-white lg:flex lg:px-[65px] lg:py-[42px]">
@@ -106,7 +111,7 @@ export default function SignUpPage() {
           <div className="my-5 flex items-center gap-[10px] text-[10px] text-[#9a9eb1] before:h-px before:flex-1 before:bg-[#e4e2ed] before:content-[''] after:h-px after:flex-1 after:bg-[#e4e2ed] after:content-['']">
             <span>or continue with</span>
           </div>
-          <button className="w-full rounded-[10px] border border-input bg-white p-3 font-semibold text-[#5f647e]">
+          <button onClick={handleGoogleLogin} className="w-full rounded-[10px] border border-input bg-white p-3 font-semibold text-[#5f647e]">
             <strong className="mr-2 text-[#4285f4]">G</strong> Google
           </button>
           <p className="mt-5 text-center text-xs text-muted-foreground">
