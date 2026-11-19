@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import type { EventItem } from "./types";
 import { Icon } from "./shared";
+import { DeleteBtn } from "./delete-alert";
 
 
 /* This page is all event card design  */

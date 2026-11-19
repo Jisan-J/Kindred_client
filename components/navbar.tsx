@@ -3,16 +3,37 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Icon, Logo } from "./shared";
+import { authClient } from "@/lib/auth-client";
 
-export function Navbar() {
+export default function Navbar() {
   const [menu, setMenu] = useState(false);
   const pathname = usePathname();
   const closeMenu = () => setMenu(false);
 
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
+  const handleSignOut = () => {
+    authClient.signOut();
+  }
   return (
     <header className="sticky top-0 relative z-[50] h-[68px] border-b border-[#eceaf7] bg-white/70 backdrop-blur-[15px] lg:h-[78px]">
       <div className="container mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -48,22 +69,64 @@ export function Navbar() {
           </Link>
         </nav>
 
-        <Link href="/register"> 
-        <Button
- className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-ink px-[18px] py-[11px] text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)] hidden sm:inline-flex">
-          Sign In <Icon name="arrow" size={16} />
-        </Button>
-      </Link>
+        {
+          user ? <>
 
-      <button
-        className="border-0 bg-transparent text-ink lg:hidden"
-        onClick={() => setMenu(!menu)}
-        aria-label="Toggle menu"
-        aria-expanded={menu}
-      >
-        {menu ? <Icon name="close" /> : <Icon name="menu" />}
-      </button>
-    </div>
+            <Popover>
+              <PopoverTrigger render={<Button variant="outline" className="w-fit ">
+
+
+                <Avatar>
+                  <AvatarImage referrerPolicy="no-referrer"
+                    src={user?.image as string}
+                    alt={user?.name}
+                    className="grayscale"
+                  />
+                  <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
+                </Avatar>
+                {user.name}
+
+              </Button>} />
+              <PopoverContent align="start" className={"bg-gray-50/90"}>
+
+                <PopoverHeader className="*:my-2 ">
+                  <PopoverTitle> <Link href={"/dashboard/create"}>Create Event</Link></PopoverTitle>
+                  <PopoverTitle> <Link href={"/manage-events"}>Manage Events</Link></PopoverTitle>
+                  <PopoverTitle>Joined Events </PopoverTitle>
+                  <Button onClick={handleSignOut}>Sign Out</Button>
+                </PopoverHeader>
+              </PopoverContent>
+            </Popover></>
+
+            : <div>
+
+              <Link href="/login" className="mx-2">
+                <Button
+                  className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-ink px-[18px] py-[11px] text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)] hidden sm:inline-flex">
+                  Sign In <Icon name="arrow" size={16} />
+                </Button>
+              </Link>
+              <Link href="/register">
+                <Button
+                  className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-transparent  px-[18px] py-[11px] text-sm font-bold text-ink transition-all duration-200  hover:bg-ink hover:text-white hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)] hidden sm:inline-flex">
+                  Sign Up <Icon name="arrow" size={16} />
+                </Button>
+              </Link>
+            </div>
+
+        }
+
+        <button
+          className="border-0 bg-transparent text-ink lg:hidden"
+          onClick={() => setMenu(!menu)}
+          aria-label="Toggle menu"
+          aria-expanded={menu}
+        >
+          {menu ? <Icon name="close" /> : <Icon name="menu" />}
+        </button>
+      </div>
+
     </header >
+
   );
 }

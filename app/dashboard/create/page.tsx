@@ -4,12 +4,19 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
 
 export default function CreateEvent() {
+    const { data: session } = authClient.useSession();
+    const userId = session?.user.id;
+
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const myFormData = new FormData(e.currentTarget);
         const eventFormObj = Object.fromEntries(myFormData.entries());
+        eventFormObj.createdBy = userId as string
 
         const res = await fetch("http://localhost:8000/all-events", {
             method: "POST",
@@ -17,7 +24,7 @@ export default function CreateEvent() {
             body: JSON.stringify(eventFormObj),
         })
         const data = await res.json();
-        console.log(data);
+        redirect("/manage-events");
     };
 
     return (
@@ -70,30 +77,6 @@ export default function CreateEvent() {
                         </div>
 
                     </div>
-
-                    <div className="grid gap-5 sm:grid-cols-2">
-
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">Organizer Name</label>
-                            <Input
-                                name="name"
-                                placeholder="Your name"
-                                required
-                            />
-                        </div>
-
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium">Contact Email</label>
-                            <Input
-                                name="email"
-                                type="email"
-                                placeholder="example@email.com"
-                                required
-                            />
-                        </div>
-
-                    </div>
-
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Event Image URL</label>
                         <Input

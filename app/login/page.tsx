@@ -1,16 +1,25 @@
+'use client';
 import type { FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Icon, Logo } from "@/components/shared";
+import { signIn } from "@/lib/auth-client";
 
 
 export default function LoginPage() {
-  const submit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-  };
-
+ const handleSignIn = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const user = Object.fromEntries(formData.entries()) as {email: string, password: string };
+    const { data, error } = await signIn.email({
+    email: user.email, 
+    password: user.password, 
+    rememberMe: true, 
+    callbackURL: "/", 
+});
+ }
   return (
     <main className="grid min-h-screen grid-cols-1 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="hidden flex-col justify-between bg-[linear-gradient(rgba(54,59,101,0.68),rgba(54,59,101,0.82)),url('https://images.unsplash.com/photo-1551791506-57d68c0c6882?auto=format&fit=crop&w=1200&q=85')] bg-cover bg-center px-10 py-8 text-white lg:flex lg:px-[65px] lg:py-[42px]">
@@ -40,23 +49,15 @@ export default function LoginPage() {
 
            Welcome back! Please enter your details.
           </p>
-          <form >
-            <label className="mb-[15px] block text-xs font-bold text-[#555b77]">
-              Your name
-              <Input
-                className="mt-[7px] h-auto w-full rounded-[10px] border border-input bg-white px-[14px] py-[13px] text-foreground shadow-none focus-visible:border-mid focus-visible:ring-[3px] focus-visible:ring-mid/20"
-                required
-                placeholder="e.g. Nadia Rahman"
-              />
-            </label>
-
+          <form onSubmit={handleSignIn}>
             <label className="mb-[15px] block text-xs font-bold text-[#555b77]">
               Email address
               <Input
                 className="mt-[7px] h-auto w-full rounded-[10px] border border-input bg-white px-[14px] py-[13px] text-foreground shadow-none focus-visible:border-mid focus-visible:ring-[3px] focus-visible:ring-mid/20"
                 required
                 type="email"
-                placeholder="you@example.com"
+                name="email"
+                placeholder="Enter your email"
               />
             </label>
             <label className="mb-[15px] block text-xs font-bold text-[#555b77]">
@@ -65,11 +66,12 @@ export default function LoginPage() {
                 className="mt-[7px] h-auto w-full rounded-[10px] border border-input bg-white px-[14px] py-[13px] text-foreground shadow-none focus-visible:border-mid focus-visible:ring-[3px] focus-visible:ring-mid/20"
                 required
                 type="password"
-                placeholder="At least 6 characters"
+                name="password"
+                placeholder="Enter your password"
               />
             </label>
 
-            <Button
+            <Button type="submit"
               className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-ink px-[22px] py-[15px] text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)] w-full">
               Log In<Icon name="arrow" size={18} />
             </Button>
@@ -81,6 +83,7 @@ export default function LoginPage() {
             <strong className="mr-2 text-[#4285f4]">G</strong> Google
           </button>
           <p className="mt-5 text-center text-xs text-muted-foreground">
+            Don’t have an account?{" "}
             <Link
               href="/register"
               className="border-0 bg-transparent font-bold text-ink"

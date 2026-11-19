@@ -10,7 +10,6 @@ import EventCard from "./event-card";
 export async function HomePage() {
     const res = await fetch("http://localhost:8000/all-events", {
   });
-
   const events = await res.json();
   return (
     <>

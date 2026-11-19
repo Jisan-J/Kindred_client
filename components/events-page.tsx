@@ -10,11 +10,11 @@ import EventCard from "./event-card";
 export default async function EventsPage() {
   const res = await fetch("http://localhost:8000/all-events", {
   });
-
   const events = await res.json();
+
+  
   return (
     <>
-
     <main id="events-page" className="container mx-auto min-h-[700px] max-w-7xl px-4 pb-20 pt-12 sm:px-6 lg:px-8 lg:pb-[110px] lg:pt-[70px] ">
       <div className="mb-[45px] text-center">
         <span className="inline-flex items-center gap-[7px] text-xs font-extrabold tracking-[1.5px] text-[#6872ac]">

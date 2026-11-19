@@ -1,13 +1,15 @@
-
+'use client';
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Icon } from "./shared";
 import { EventItem } from "./types";
+import EditEventDetail from "./editEventDetails";
 
 /* this is event details page */
-export default function EventDetails({ event }: { event: EventItem }) {
+export default function EventDetails({ event,  }: { event: EventItem }) {
+
   return (
     <main className="container mx-auto min-h-[700px] max-w-7xl px-4 pb-20 pt-12 sm:px-6 lg:px-8 lg:pb-[110px] lg:pt-[70px]">
       <Link
@@ -22,9 +24,13 @@ export default function EventDetails({ event }: { event: EventItem }) {
       </div>
       <div className="relative mx-3 mt-[-25px] grid max-w-5xl grid-cols-1 items-start gap-6 sm:mx-auto sm:mt-[-40px] lg:mt-[-55px] lg:grid-cols-[1fr_330px] lg:gap-[45px]">
         <article className="rounded-[20px] bg-white p-[28px_22px] shadow-[0_10px_40px_rgba(55,60,98,0.1)] sm:p-[38px_42px]">
+          <div className="mb-[10px] flex items-center justify-between gap-3 ">
+
           <span className="inline-flex rounded-[20px] bg-[rgba(244,238,255,0.94)] px-[11px] py-[7px] text-[10px] font-extrabold tracking-[0.6px] text-ink uppercase">
             {event.type}
           </span>
+          <EditEventDetail event={event}></EditEventDetail>
+          </div>
           <h1 className="my-[14px] text-[29px] tracking-[-1.5px] text-ink sm:text-4xl">
             {event.title}
           </h1>
@@ -43,20 +49,7 @@ export default function EventDetails({ event }: { event: EventItem }) {
             {event.description} Together, we&apos;ll make a visible, lasting difference while building
             connections with people across our community.
           </p>
-          <p className="text-sm leading-[1.75] text-[#70758c]">
-            All ages and experience levels are welcome. We’ll provide supplies, light refreshments,
-            and a short orientation before we begin.
-          </p>
-          <h3 className="mt-7 text-ink">What to bring</h3>
-          <ul className="list-disc pl-5">
-            <li className="text-sm leading-[1.75] text-[#70758c]">
-              Comfortable clothes and closed-toe shoes
-            </li>
-            <li className="text-sm leading-[1.75] text-[#70758c]">A reusable water bottle</li>
-            <li className="text-sm leading-[1.75] text-[#70758c]">
-              Your energy and a willingness to help
-            </li>
-          </ul>
+          
         </article>
         <aside>
           <div className="rounded-[18px] border border-soft bg-mist p-[25px] lg:mt-[90px]">
@@ -73,7 +66,7 @@ export default function EventDetails({ event }: { event: EventItem }) {
                 className={cn(
                   "inline-flex items-center justify-center gap-[10px] rounded-xl bg-ink px-[22px] py-[15px] text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)]",
                   "my-[22px] mb-[10px] w-full",
-                )}
+                )} 
               >
                 Join this event <Icon name="arrow" size={18} />
               </Button>
