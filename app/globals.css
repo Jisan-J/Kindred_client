@@ -1,0 +1,68 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted-surface);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ink: var(--ink);
+  --color-mid: var(--mid);
+  --color-soft: var(--soft);
+  --color-mist: var(--mist);
+  --font-sans: "DM Sans", sans-serif;
+  --font-heading: "Manrope", sans-serif;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.75rem;
+  --background: #fefeff;
+  --foreground: #303552;
+  --primary: #424874;
+  --primary-foreground: #ffffff;
+  --secondary: #f4eeff;
+  --secondary-foreground: #424874;
+  --muted-surface: #f4eeff;
+  --muted-foreground: #717691;
+  --border: #e4e1ef;
+  --input: #dddbea;
+  --ring: #a6b1e1;
+  --ink: #424874;
+  --mid: #a6b1e1;
+  --soft: #dcd6f7;
+  --mist: #f4eeff;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading;
+  }
+
+  button {
+    @apply cursor-pointer;
+  }
+}
