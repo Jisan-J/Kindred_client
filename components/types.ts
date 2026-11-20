@@ -12,5 +12,9 @@ export type EventItem = {
   image: string;
   description: string;
   people: number;
-  createdBy:string;
+  createdBy:{
+    name:string;
+    email:string;
+    image:string;
+  }
 };

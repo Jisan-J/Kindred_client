@@ -2,8 +2,9 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import type { EventItem } from "./types";
-import { Icon } from "./shared";
-import { DeleteBtn } from "./delete-alert";
+import { ArrowRight, MapPin, Users } from "lucide-react";
+import { DeleteBtn } from "./delete-manage";
+import Image from "next/image";
 
 
 /* This page is all event card design  */
@@ -18,10 +19,12 @@ export default function EventCard({ event }: { event: EventItem }) {
     >
       <article>
         <div className="relative h-[215px] overflow-hidden">
-          <img
+          <Image
             className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
             src={event.image}
-            alt=""
+            height={220}
+            width={220}
+            alt="Photo"
           />
           <span
             className={cn(
@@ -40,14 +43,14 @@ export default function EventCard({ event }: { event: EventItem }) {
         </div>
         <div className="p-[22px]">
           <h3 className="mb-[9px] text-lg tracking-[-0.3px] text-ink">{event?.title}</h3>
-          <p className="min-h-10 text-[13px] leading-[1.55] text-[#777c93]">{event?.description}</p>
+          <p className="min-h-10 text-[13px] leading-[1.55] text-[#777c93]">{event?.description.slice(0, 100)}...</p>
           <div className="my-[17px] flex flex-wrap gap-x-[15px] gap-y-2 border-t border-[#efedf5] pt-[15px]">
             <span className="flex items-center gap-[5px] text-[11px] text-[#7a7f97]">
-              <Icon className="text-[#8e98ce]" name="pin" size={17} />
+              <MapPin className="text-[#8e98ce]" size={17} aria-hidden="true" />
               {event?.location}
             </span>
             <span className="flex items-center gap-[5px] text-[11px] text-[#7a7f97]">
-              <Icon className="text-[#8e98ce]" name="users" size={17} />
+              <Users className="text-[#8e98ce]" size={17} aria-hidden="true" />
               {event?.people} going
             </span>
           </div>
@@ -55,7 +58,7 @@ export default function EventCard({ event }: { event: EventItem }) {
             href={`/events/${event._id}`}
             className="inline-flex items-center gap-2 border-0 border-b border-[#b9bdd8] bg-transparent px-0 py-1.5 font-bold text-ink"
           >
-            View event <Icon name="arrow" size={17} />
+            View event <ArrowRight size={17} aria-hidden="true" />
           </Link>
         </div>
       </article>

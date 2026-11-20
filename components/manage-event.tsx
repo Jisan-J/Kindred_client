@@ -11,8 +11,8 @@ import ManageEventCard from "./manage-event-card";
 /* This page is all event card design  */
 export default function ManageEvent({ allEvents }: { allEvents: EventItem[] }) {
         const { data: session } = useSession();
-    const userId = session?.user.id;
-      const event = allEvents.filter((item:EventItem) => item.createdBy === userId);
+    const userEmail = session?.user?.email;
+      const event = allEvents.filter((item:EventItem) => item.createdBy?.email === userEmail);
     return (
 
         <>{event.length > 0 ?

@@ -2,13 +2,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { Icon } from "./shared";
+import {
+  ArrowRight,
+  CalendarDays,
+  Check,
+  Heart,
+  Mail,
+  Plus,
+  Search,
+  Sparkles,
+} from "lucide-react";
 import Image from "next/image";
 import { EventItem } from "./types";
 import EventCard from "./event-card";
 
 export async function HomePage() {
-    const res = await fetch("http://localhost:8000/all-events", {
+    const res = await fetch("http://localhost:8000/recent-events", {
   });
   const events = await res.json();
   return (
@@ -31,7 +40,7 @@ export async function HomePage() {
                 className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-ink px-[22px] py-[15px] text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)]"
               >
                 <Link href="/events">
-                  Explore events <Icon name="arrow" size={18} />
+                  Explore events <ArrowRight size={18} aria-hidden="true" />
                 </Link>
               </Button>
               <Button
@@ -42,7 +51,7 @@ export async function HomePage() {
                 )}
               >
                 <Link href="/dashboard/create">
-                  <Icon name="plus" size={18} /> Create an event
+                  <Plus size={18} aria-hidden="true" /> Create an event
                 </Link>
               </Button>
             </div>
@@ -64,7 +73,7 @@ export async function HomePage() {
               )}
             >
               <span className="grid size-[42px] shrink-0 place-items-center rounded-xl bg-mist text-ink">
-                <Icon name="calendar" />
+                <CalendarDays size={20} aria-hidden="true" />
               </span>
               <div>
                 <small className="block text-[9px] tracking-[1px] text-[#9298b2]">NEXT EVENT</small>
@@ -81,7 +90,7 @@ export async function HomePage() {
               )}
             >
               <span className="grid size-[42px] shrink-0 place-items-center rounded-xl bg-mist text-ink">
-                <Icon name="heart" />
+                <Heart size={20} aria-hidden="true" />
               </span>
               <div>
                 <strong
@@ -147,11 +156,11 @@ export async function HomePage() {
               "mt-5 sm:mt-0",
             )}
           >
-            View all events <Icon name="arrow" size={18} />
+            View all events <ArrowRight size={18} aria-hidden="true" />
           </Link>
         </div>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {events.slice(0, 3).map((event:EventItem, idx:number) => <EventCard key={idx} event={event} />)}
+          {events.map((event:EventItem, idx:number) => <EventCard key={idx} event={event} />)}
         </div>
       </section>
 
@@ -173,7 +182,7 @@ export async function HomePage() {
             <div className="relative text-center">
 
               <div className="relative mx-auto mb-5 grid size-[66px] place-items-center rounded-[20px] bg-white text-ink shadow-[0_12px_28px_rgba(66,72,116,0.11)]">
-                <Icon name="search" size={28} />
+                <Search size={28} aria-hidden="true" />
               </div>
               <h3 className="mb-2 text-ink">Discover</h3>
               <p className="mx-auto max-w-[220px] text-[13px] leading-[1.6] text-[#777c94]">
@@ -184,7 +193,7 @@ export async function HomePage() {
             <div className="relative text-center">
 
               <div className="relative mx-auto mb-5 grid size-[66px] place-items-center rounded-[20px] bg-white text-ink shadow-[0_12px_28px_rgba(66,72,116,0.11)]">
-                <Icon name="heart" size={28} />
+                <Heart size={28} aria-hidden="true" />
               </div>
               <h3 className="mb-2 text-ink">Join in</h3>
               <p className="mx-auto max-w-[220px] text-[13px] leading-[1.6] text-[#777c94]">
@@ -195,7 +204,7 @@ export async function HomePage() {
             <div className="relative text-center">
 
               <div className="relative mx-auto mb-5 grid size-[66px] place-items-center rounded-[20px] bg-white text-ink shadow-[0_12px_28px_rgba(66,72,116,0.11)]">
-                <Icon name="spark" size={28} />
+                <Sparkles size={28} aria-hidden="true" />
               </div>
               <h3 className="mb-2 text-ink">Make it count</h3>
               <p className="mx-auto max-w-[220px] text-[13px] leading-[1.6] text-[#777c94]">
@@ -259,19 +268,19 @@ export async function HomePage() {
           <ul className="my-5 list-none py-[5px]">
             <li className="my-3 flex items-center gap-[10px] text-sm text-[#555b78]">
               <span className="grid size-6 place-items-center rounded-full bg-mist text-ink">
-                <Icon name="check" size={16} />
+                <Check size={16} aria-hidden="true" />
               </span>
               Local events, created by real neighbors
             </li>
             <li className="my-3 flex items-center gap-[10px] text-sm text-[#555b78]">
               <span className="grid size-6 place-items-center rounded-full bg-mist text-ink">
-                <Icon name="check" size={16} />
+                <Check size={16} aria-hidden="true" />
               </span>
               Simple, transparent, and always welcoming
             </li>
             <li className="my-3 flex items-center gap-[10px] text-sm text-[#555b78]">
               <span className="grid size-6 place-items-center rounded-full bg-mist text-ink">
-                <Icon name="check" size={16} />
+                <Check size={16} aria-hidden="true" />
               </span>
               Your impact, remembered and celebrated
             </li>
@@ -280,9 +289,9 @@ export async function HomePage() {
       </section>
 
       {/* Newsletter section */}
-      <section className="container relative mx-auto mb-[72px] grid max-w-6xl grid-cols-1 items-center gap-5 overflow-hidden rounded-3xl bg-[linear-gradient(120deg,var(--soft),var(--mist))] px-6 py-8 after:absolute after:right-[-110px] after:top-[-120px] after:size-[220px] after:rounded-full after:border-[40px] after:border-white/25 after:content-[''] md:grid-cols-[54px_1fr] md:gap-[22px] md:[&>form]:col-span-2 xl:mb-[100px] xl:grid-cols-[60px_1fr_1.1fr] xl:px-[55px] xl:py-12 xl:[&>form]:col-span-1">
+      <section className="container relative mx-auto mb-[72px] grid max-w-6xl grid-cols-1 items-center gap-5 overflow-hidden rounded-3xl bg-[linear-gradient(120deg,var(--soft),var(--mist))] px-6 py-8 after:absolute after:right-[-110px] after:top-[-120px] after:size-[220px] after:rounded-full after:border-[40px] after:border-white/25 after:content-[''] md:grid-cols-[54px_1fr] md:gap-[22px] xl:mb-[100px] xl:grid-cols-[60px_1fr_1.1fr] xl:px-[55px] xl:py-12">
         <div className="mb-[18px] grid size-[54px] place-items-center rounded-2xl bg-white text-ink md:mb-0">
-          <Icon name="mail" size={28} />
+          <Mail size={28} aria-hidden="true" />
         </div>
         <div>
           <span className="inline-flex items-center gap-[7px] text-xs font-extrabold tracking-[1.5px] text-[#6872ac]">
@@ -294,19 +303,17 @@ export async function HomePage() {
             often.
           </p>
         </div>
-
-
-        <div>
+        <div className="w-full min-w-0 md:col-span-2 xl:col-span-1">
           <form
-            className="mt-5 flex flex-col gap-2 rounded-[13px] p-0 md:col-span-2 md:flex-row md:gap-0 md:bg-white md:p-1.5  xl:col-span-1">
+            className="mt-5 flex w-full min-w-0 flex-col gap-2 rounded-[13px] p-0 md:flex-row md:gap-0 md:bg-white md:p-1.5">
             <Input
-              className=" flex-1 rounded-[10px] border-0 bg-white px-[14px] py-[14px] text-[13px] text-foreground shadow-none outline-none focus-visible:ring-0 md:rounded-none md:py-0"
+              className="min-w-0 flex-1 rounded-[10px] border-0 bg-white px-[14px] py-[14px] text-[13px] text-foreground shadow-none outline-none focus-visible:ring-0 md:rounded-none md:py-0"
               type="email"
               placeholder="Your email address"
               aria-label="Your email address"
             />
-            <Button className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-ink px-[22px] py-[15px] text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)]">
-              Subscribe<Icon name="arrow" size={17} />
+            <Button className="inline-flex shrink-0 items-center justify-center gap-[10px] rounded-xl bg-ink px-[22px] py-[15px] text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)]">
+              Subscribe<ArrowRight size={17} aria-hidden="true" />
             </Button>
           </form>
         </div>

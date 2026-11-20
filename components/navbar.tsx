@@ -11,16 +11,15 @@ import {
 import {
   Popover,
   PopoverContent,
-  PopoverDescription,
   PopoverHeader,
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { ArrowRight, Menu, X } from "lucide-react";
 
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Icon, Logo } from "./shared";
 import { authClient } from "@/lib/auth-client";
 
 export default function Navbar() {
@@ -37,7 +36,15 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 relative z-[50] h-[68px] border-b border-[#eceaf7] bg-white/70 backdrop-blur-[15px] lg:h-[78px]">
       <div className="container mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Logo />
+        <Link
+          href="/"
+          className="hidden lg:inline-flex items-center gap-[10px] border-0 bg-transparent p-0 font-heading text-lg font-extrabold tracking-[-0.8px] text-ink sm:text-xl"
+          aria-label="Go to home"
+        >
+          <span>
+            Kindred<span className="text-[#8995ce]">Good</span>
+          </span>
+        </Link>
         <nav
           className={cn(
             "hidden items-center gap-[30px] lg:flex",
@@ -70,12 +77,10 @@ export default function Navbar() {
         </nav>
 
         {
-          user ? <>
+          user ? <div>
 
             <Popover>
-              <PopoverTrigger render={<Button variant="outline" className="w-fit ">
-
-
+              <PopoverTrigger render={<Button className="w-fit bg-transparent shadow-none text-gray-800 hover:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none">
                 <Avatar>
                   <AvatarImage referrerPolicy="no-referrer"
                     src={user?.image as string}
@@ -84,45 +89,52 @@ export default function Navbar() {
                   />
                   <AvatarFallback>{user?.name.charAt(0)}</AvatarFallback>
                 </Avatar>
-                {user.name}
-
+                <strong className="hidden lg:inline">{user.name}</strong>
               </Button>} />
               <PopoverContent align="start" className={"bg-gray-50/90"}>
-
                 <PopoverHeader className="*:my-2 ">
                   <PopoverTitle> <Link href={"/dashboard/create"}>Create Event</Link></PopoverTitle>
                   <PopoverTitle> <Link href={"/manage-events"}>Manage Events</Link></PopoverTitle>
-                  <PopoverTitle>Joined Events </PopoverTitle>
+                  <PopoverTitle><Link href={"/joined-event"}>Joined Events</Link></PopoverTitle>
                   <Button onClick={handleSignOut}>Sign Out</Button>
                 </PopoverHeader>
               </PopoverContent>
-            </Popover></>
+            </Popover>
+
+          </div>
 
             : <div>
 
               <Link href="/login" className="mx-2">
                 <Button
                   className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-ink px-[18px] py-[11px] text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)] hidden sm:inline-flex">
-                  Sign In <Icon name="arrow" size={16} />
+                  Sign In <ArrowRight size={16} aria-hidden="true" />
                 </Button>
               </Link>
               <Link href="/register">
                 <Button
                   className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-transparent  px-[18px] py-[11px] text-sm font-bold text-ink transition-all duration-200  hover:bg-ink hover:text-white hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)] hidden sm:inline-flex">
-                  Sign Up <Icon name="arrow" size={16} />
+                  Sign Up <ArrowRight size={16} aria-hidden="true" />
                 </Button>
               </Link>
             </div>
-
         }
-
+        <Link
+          href="/"
+          className="lg:hidden inline-flex items-center gap-[10px] border-0 bg-transparent p-0 font-heading text-lg font-extrabold tracking-[-0.8px] text-ink sm:text-xl"
+          aria-label="Go to home"
+        >
+          <span>
+            Kindred<span className="text-[#8995ce]">Good</span>
+          </span>
+        </Link>
         <button
           className="border-0 bg-transparent text-ink lg:hidden"
           onClick={() => setMenu(!menu)}
           aria-label="Toggle menu"
           aria-expanded={menu}
         >
-          {menu ? <Icon name="close" /> : <Icon name="menu" />}
+          {menu ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
         </button>
       </div>
 

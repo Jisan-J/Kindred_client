@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
-import { Icon } from "./shared";
+import { Search } from "lucide-react";
 import { EventItem } from "./types";
 import EventCard from "./event-card";
 
@@ -29,7 +29,7 @@ export default async function EventsPage() {
       </div>
       <div className="mb-[30px] flex flex-col items-stretch justify-between gap-5 md:flex-row md:items-center md:gap-[25px]">
         <div className="flex w-full items-center gap-[10px] rounded-[11px] border border-[#e2dfed] px-[15px] py-[11px] text-[#9197b3] md:w-72">
-          <Icon name="search" size={18} />
+          <Search size={18} aria-hidden="true" />
           <Input
             className="w-full border-0 bg-transparent text-[13px] shadow-none outline-none focus-visible:ring-0"
             placeholder="Search events or locations"

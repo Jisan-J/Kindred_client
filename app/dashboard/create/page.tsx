@@ -9,14 +9,23 @@ import { redirect } from "next/navigation";
 
 export default function CreateEvent() {
     const { data: session } = authClient.useSession();
-    const userId = session?.user.id;
+    const userName = session?.user.name;
+    const userEmail = session?.user.email;
+    const userImage = session?.user.image;
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const myFormData = new FormData(e.currentTarget);
-        const eventFormObj = Object.fromEntries(myFormData.entries());
-        eventFormObj.createdBy = userId as string
+        /* here is spread the all object data then create createdBy for finding which created this event */
+        const eventFormObj = {
+            ...Object.fromEntries(myFormData.entries()),
+            createdBy: {
+                name: userName,
+                email: userEmail,
+                image:userImage,
+            },
+        };
 
         const res = await fetch("http://localhost:8000/all-events", {
             method: "POST",
@@ -53,11 +62,22 @@ export default function CreateEvent() {
 
                     <div className="space-y-2">
                         <label className="text-sm font-medium">Event Type</label>
-                        <Input
+
+                        <select
                             name="type"
-                            placeholder="Donation / Environment / Education"
                             required
-                        />
+                            className="w-full rounded-md border bg-background px-3 py-2 text-sm"
+                        >
+                            <option value="" disabled>
+                                Select event type
+                            </option>
+                            <option value="Donation">Donation</option>
+                            <option value="Environment">Environment</option>
+                            <option value="Education">Education</option>
+                            <option value="Community">Community</option>
+                            <option value="Health">Health</option>
+                            <option value="Animal Welfare">Animal Welfare</option>
+                        </select>
                     </div>
 
                     <div className="grid gap-5 sm:grid-cols-2">
@@ -73,7 +93,9 @@ export default function CreateEvent() {
 
                         <div className="space-y-2">
                             <label className="text-sm font-medium">Event Date</label>
-                            <Input name="date" type="date" required />
+                            <Input name="date" type="date"
+                                min={new Date().toISOString().split("T")[0]}
+                                required />
                         </div>
 
                     </div>

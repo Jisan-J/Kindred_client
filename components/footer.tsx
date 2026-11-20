@@ -1,13 +1,19 @@
 import Link from "next/link";
 
-import { Logo } from "./shared";
-
 export function Footer() {
   return (
     <footer className="bg-[#353a64] px-4 pb-5 pt-12 text-white sm:px-6 lg:px-8 lg:pt-[65px]">
       <div className="container mx-auto grid max-w-7xl grid-cols-2 gap-8 pb-10 sm:grid-cols-3 sm:gap-10 lg:grid-cols-4 lg:gap-[70px] lg:pb-[55px]">
         <div className="col-span-2 sm:col-span-1">
-          <Logo inverse />
+          <Link
+            href="/"
+            className="inline-flex items-center gap-[10px] border-0 bg-transparent p-0 font-heading text-lg font-extrabold tracking-[-0.8px] text-white sm:text-xl"
+            aria-label="Go to home"
+          >
+            <span>
+              Kindred<span className="text-[#8995ce]">Good</span>
+            </span>
+          </Link>
           <p className="my-5 max-w-[280px] text-[13px] leading-[1.7] text-[#b9bdd6]">
             Helping good people find each other—and make their communities stronger, together.
           </p>

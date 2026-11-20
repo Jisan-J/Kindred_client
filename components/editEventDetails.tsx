@@ -38,7 +38,7 @@ export default function EditEventDetail({ event }: { event: EventItem }) {
     return (
         <Dialog>
             <DialogTrigger render={<Button type="button" variant="outline" className=" rounded-[20px] bg-[rgba(244,238,255,0.94)]"><Pencil size={'12px'}></Pencil> Edit</Button>} />
-            <DialogContent className="sm:max-w-sm  rounded-[20px] bg-[rgba(244,238,255,0.94)]">
+            <DialogContent className="sm:max-w-xl  rounded-[20px] bg-[rgba(244,238,255,0.94)] ">
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
                         <DialogTitle>Edit Event</DialogTitle>
@@ -47,19 +47,21 @@ export default function EditEventDetail({ event }: { event: EventItem }) {
                             done.
                         </DialogDescription>
                     </DialogHeader>
-                    <FieldGroup>
+                    <FieldGroup >
                         <Field>
                             <Label htmlFor="title-1">Event Name</Label>
                             <Input id="title-1" name="title" defaultValue={event.title} />
                         </Field>
-                        <Field>
-                            <Label htmlFor="date-1">Date</Label>
-                            <Input id="date-1" name="date" type="date" defaultValue={event.date} />
-                        </Field>
-                        <Field>
-                            <Label htmlFor="location-1">Location</Label>
-                            <Input id="location-1" name="location" defaultValue={event.location} />
-                        </Field>
+                        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+                            <Field>
+                                <Label htmlFor="date-1">Date</Label>
+                                <Input id="date-1" name="date" type="date" defaultValue={event.date} />
+                            </Field>
+                            <Field>
+                                <Label htmlFor="location-1">Location</Label>
+                                <Input id="location-1" name="location" defaultValue={event.location} />
+                            </Field>
+                        </div>
                         <Field>
                             <Label htmlFor="image-1">Image</Label>
                             <Input id="image-1" name="image" type="url" defaultValue={event.image} />

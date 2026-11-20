@@ -1,5 +1,4 @@
 import ManageEvent from "@/components/manage-event";
-import ManageEventCard from "@/components/manage-event";
 
 /* This page show the all upcoming events */
 export default async function ManagePage() {

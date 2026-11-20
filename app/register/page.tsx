@@ -4,7 +4,7 @@ import type { FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import { Icon, Logo } from "@/components/shared";
+import { ArrowRight, Sparkles } from "lucide-react";
 import { authClient, signUp } from "@/lib/auth-client";
 
 
@@ -30,10 +30,18 @@ const handleGoogleLogin = async () => {
   return (
     <main className="grid min-h-screen grid-cols-1 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="hidden flex-col justify-between bg-[linear-gradient(rgba(54,59,101,0.68),rgba(54,59,101,0.82)),url('https://images.unsplash.com/photo-1551791506-57d68c0c6882?auto=format&fit=crop&w=1200&q=85')] bg-cover bg-center px-10 py-8 text-white lg:flex lg:px-[65px] lg:py-[42px]">
-        <Logo inverse />
+        <Link
+          href="/"
+          className="inline-flex items-center gap-[10px] border-0 bg-transparent p-0 font-heading text-lg font-extrabold tracking-[-0.8px] text-white sm:text-xl"
+          aria-label="Go to home"
+        >
+          <span>
+            Kindred<span className="text-[#8995ce]">Good</span>
+          </span>
+        </Link>
         <div>
           <span className="inline-flex items-center gap-[7px] rounded-[30px] border border-[rgba(166,177,225,0.45)] bg-[rgba(220,214,247,0.72)] px-3 py-2 text-xs font-extrabold tracking-[0.7px] text-[#6872ac]">
-            <Icon name="spark" size={16} /> A kinder city starts here
+            <Sparkles size={16} aria-hidden="true" /> A kinder city starts here
           </span>
           <h2 className="my-5 text-[43px] leading-[1.15] tracking-[-2px]">
             There’s always room
@@ -105,7 +113,7 @@ const handleGoogleLogin = async () => {
             </small>
             <Button type="submit"
               className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-ink px-[22px] py-[15px] text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)] w-full">
-              Sign Up<Icon name="arrow" size={18} />
+              Sign Up<ArrowRight size={18} aria-hidden="true" />
             </Button>
           </form>
           <div className="my-5 flex items-center gap-[10px] text-[10px] text-[#9a9eb1] before:h-px before:flex-1 before:bg-[#e4e2ed] before:content-[''] after:h-px after:flex-1 after:bg-[#e4e2ed] after:content-['']">
