@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import type { EventItem } from "./types";
 import { ArrowRight, MapPin, Users } from "lucide-react";
-import { DeleteBtn } from "./delete-manage";
 import Image from "next/image";
 
 

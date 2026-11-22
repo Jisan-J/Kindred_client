@@ -17,6 +17,7 @@ import { Textarea } from "./ui/textarea"
 import { Pencil } from "lucide-react"
 import { EventItem } from "./types";
 import { redirect } from "next/navigation";
+import { toast } from "./ui/toast";
 
 export default function EditEventDetail({ event }: { event: EventItem }) {
 
@@ -32,7 +33,12 @@ export default function EditEventDetail({ event }: { event: EventItem }) {
             body: JSON.stringify(eventFormObj),
 
         })
-        const data = await res.json();
+         if (res.ok) {
+            toast.add({
+                type: "success",
+                title: "Updated the event!",
+            })
+        }
         redirect(`/events/${event._id}`);
     };
     return (

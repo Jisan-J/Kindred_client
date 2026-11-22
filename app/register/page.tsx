@@ -1,11 +1,13 @@
 'use client';
-import type { FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { authClient, signUp } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
+import { toast } from "@/components/ui/toast";
 
 
 export default function SignUpPage() {
@@ -19,14 +21,22 @@ export default function SignUpPage() {
       password: user.password, // required, The password of the user. It should be at least 8 characters long and max 128 by default.
       image: user.image
     });
-    console.log("Sign Up Response:", { data, error });
+    if (!error) {
+      toast.add({
+        type: "success",
+        title: "Account created!",
+      })
+      redirect("/")
+    }
   }
-const handleGoogleLogin = async () => {
-  await authClient.signIn.social({
-    provider: "google",
-    callbackURL: "/",
-  });
-};
+  const handleGoogleLogin = async () => {
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/",
+    });
+  };
+
+  const [error, setError] = useState("");
   return (
     <main className="grid min-h-screen grid-cols-1 lg:grid-cols-[0.9fr_1.1fr]">
       <div className="hidden flex-col justify-between bg-[linear-gradient(rgba(54,59,101,0.68),rgba(54,59,101,0.82)),url('https://images.unsplash.com/photo-1551791506-57d68c0c6882?auto=format&fit=crop&w=1200&q=85')] bg-cover bg-center px-10 py-8 text-white lg:flex lg:px-[65px] lg:py-[42px]">
@@ -105,7 +115,18 @@ const handleGoogleLogin = async () => {
                 type="password"
                 name="password"
                 placeholder="At least 6 characters"
+                onChange={(e) => {
+                  const value = e.target.value;
+
+                  if (value.length < 6 || !/[A-Z]/.test(value) || !/[a-z]/.test(value)) {
+                    setError("Must have uppercase, lowercase and at least 6 characters");
+                  } else {
+                    setError("");
+                  }
+                }}
               />
+
+              {error && <p className="mt-1 text-red-500">{error}</p>}
             </label>
 
             <small className="-mt-2 mb-4 block text-[#8a8fa7]">

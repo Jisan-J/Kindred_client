@@ -7,11 +7,56 @@ import { EventItem } from "./types";
 import EditEventDetail from "./editEventDetails";
 import Image from "next/image";
 import { useSession } from "@/lib/auth-client";
+import { toast } from "./ui/toast";
+import { JoinEventPeoples } from "./joinTypes";
+import { useEffect, useState } from "react";
 
 /* this is event details page */
 export default function EventDetails({ event, }: { event: EventItem }) {
   const { data: session } = useSession();
   const userEmail = session?.user?.email;
+
+  const [joinCount, setJoinCount] = useState(0);
+  const [joined, setJoined] = useState([]);
+
+  useEffect(() => {
+    const fetchJoinCount = async () => {
+      const res = await fetch("http://localhost:8000/joined_people");
+      const joinData = await res.json();
+
+      const joinedPeople = joinData.filter(
+        (el: JoinEventPeoples) =>
+          String(el.eventId) === String(event._id)
+      );
+      setJoined(joinedPeople)
+      setJoinCount(joinedPeople.length);
+    };
+
+    fetchJoinCount();
+  }, [event._id]);
+
+
+/*  herer is work deu ekhane aro kaj korte hobe ekhane ami image join kor lok gulor image alada korte cacchi  */
+/*   const [image, setImage] = useState([]);
+
+  useEffect(() => {
+    const fetchJoinImage = async () => {
+      const res = await fetch("http://localhost:8000/all-events");
+      const joinData = await res.json();
+
+      const joinedPeople = joinData.map(
+        (el: EventItem[]) => {
+          return el.filter((e) => {
+            return joined.some((i: JoinEventPeoples) => e._id === i.eventId);
+          })
+        }
+      );
+      setImage(joinedPeople)
+    };
+
+    fetchJoinImage();
+  }, [event._id]); */
+
 
   const handleJoin = async () => {
     const joinedData = {
@@ -30,10 +75,16 @@ export default function EventDetails({ event, }: { event: EventItem }) {
     const data = await res.json();
 
     if (data.message === "Already joined this event") {
-    alert("You already joined this event!");
-  } else {
-    alert("Successfully joined the event!");
-  }
+      toast.add({
+        type: "info",
+        title: "Already joined this event",
+      })
+    } else {
+      toast.add({
+        type: "success",
+        title: "Successfully joined the event!",
+      })
+    }
   };
 
   return (
@@ -93,10 +144,21 @@ export default function EventDetails({ event, }: { event: EventItem }) {
                   }
 
                 </span>
-                <span className="grid size-[34px] place-items-center rounded-full border-[3px] border-white bg-ink text-[9px] text-white" />
+                <span >
+                  {
+                    event.createdBy.image ?
+                      <Image className="grid size-[34px] place-items-center rounded-full border-[3px] border-white bg-ink text-[9px] text-white"
+                        src={event?.createdBy?.image}
+                        height={100}
+                        width={100}
+                        alt={event?.createdBy?.name}
+                      ></Image> : event?.createdBy?.name.charAt(1)
+                  }
+
+                </span>
                 <span className="grid size-[34px] place-items-center rounded-full border-[3px] border-white bg-ink text-[9px] text-white" />
               </div>
-              <strong className="text-[13px] text-ink">{event?.people} people are going</strong>
+              <strong className="text-[13px] text-ink">{joinCount} people are going</strong>
             </div>
 
             <Button onClick={handleJoin}

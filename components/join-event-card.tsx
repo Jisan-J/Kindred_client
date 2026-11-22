@@ -9,7 +9,7 @@ import { JoinEventPeoples } from "./joinTypes";
 
 
 /* This page is all event card design  */
-export default function JoinEventCard({ event, joinPeoples }: { event: EventItem, joinPeoples:JoinEventPeoples[] }) {
+export default function JoinEventCard({ event, joinPerson }: { event: EventItem, joinPerson: JoinEventPeoples }) {
   return (
     <Card
       asChild
@@ -50,10 +50,7 @@ export default function JoinEventCard({ event, joinPeoples }: { event: EventItem
               <MapPin className="text-[#8e98ce]" size={17} aria-hidden="true" />
               {event?.location}
             </span>
-            <span className="flex items-center gap-[5px] text-[11px] text-[#7a7f97]">
-              <Users className="text-[#8e98ce]" size={17} aria-hidden="true" />
-              {event?.people} going
-            </span>
+            
           </div>
           <div className="flex justify-between"><Link
             href={`/events/${event._id}`}
@@ -61,7 +58,8 @@ export default function JoinEventCard({ event, joinPeoples }: { event: EventItem
           >
             View event <ArrowRight size={17} aria-hidden="true" />
           </Link>
-            <DeleteJoinBtn event={event} joinPeoples={joinPeoples}></DeleteJoinBtn></div>
+            <DeleteJoinBtn joinPerson={joinPerson} />
+          </div>
         </div>
       </article>
     </Card>

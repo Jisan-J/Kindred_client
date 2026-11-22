@@ -16,17 +16,25 @@ import {
 import { Button } from "@/components/ui/button"
 import { EventItem } from "./types"
 import { redirect } from "next/navigation";
+import { toast } from "./ui/toast";
 
 export function DeleteBtn({ event }: { event?: EventItem }) {
 
     const handleDelete = async () => {
-        await fetch("http://localhost:8000/all-events", {
+      const  res = await fetch("http://localhost:8000/all-events", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ id: event?._id }),
         })
+
+        if (res.ok) {
+            toast.add({
+                type: "success",
+                title: "Deleted the event!",
+            })
+        }
         redirect(`/manage-events`);
 
     };

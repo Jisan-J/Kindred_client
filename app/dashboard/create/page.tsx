@@ -4,6 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/toast";
 import { authClient } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
 
@@ -32,7 +33,12 @@ export default function CreateEvent() {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(eventFormObj),
         })
-        const data = await res.json();
+        if (res.ok) {
+            toast.add({
+                type: "success",
+                title: "Created an event!",
+            })
+        }
         redirect("/manage-events");
     };
 

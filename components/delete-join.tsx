@@ -14,25 +14,39 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { EventItem } from "./types"
 import { JoinEventPeoples } from "./joinTypes";
-import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { toast } from "./ui/toast";
 
-export function DeleteJoinBtn({ event, joinPeoples }: { event?: EventItem, joinPeoples:JoinEventPeoples[]}) {
+export function DeleteJoinBtn({ joinPerson }: { joinPerson: JoinEventPeoples }) {
 
-    const fel= joinPeoples.find((el)=>event?._id===el.eventId)
+    const router = useRouter()
     const handleRemove = async () => {
-        const mainRes = await fetch("http://localhost:8000/joined_people", {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id: fel?._id}),
-        })
+        try {
+            const res = await fetch("http://localhost:8000/joined_people", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ id: joinPerson._id }),
+            });
 
-        const mainResData = await mainRes.json();
-        console.log(mainResData);
-        redirect("/joined-event")
+            if (!res.ok) {
+                throw new Error(`Delete request failed with status ${res.status}`);
+            }
+
+            toast.add({
+                type: "success",
+                title: "Removed the event!",
+            })
+            router.refresh()
+        } catch (error) {
+            console.error("Failed to remove joined event", error);
+            toast.add({
+                type: "error",
+                title: "Could not remove the event. Please try again.",
+            });
+        }
     };
 
     return (
@@ -45,10 +59,9 @@ export function DeleteJoinBtn({ event, joinPeoples }: { event?: EventItem, joinP
                     <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
                         <Trash2Icon />
                     </AlertDialogMedia>
-                    <AlertDialogTitle>Delete chat?</AlertDialogTitle>
+                    <AlertDialogTitle>Remove event?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        This will permanently delete this chat conversation. View{" "}
-                        <a href="#">Settings</a> delete any memories saved during this chat.
+                        This will remove the event from your joined events.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>

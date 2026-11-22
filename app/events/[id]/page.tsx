@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-import { EventItem } from "@/components/types";
+import type { EventItem } from "@/components/types";
 import EventDetails from "@/components/event-details";
 
 
@@ -10,14 +10,15 @@ export default async function SingleEventDetails({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const res = await fetch("http://localhost:8000/all-events", {
+  const res = await fetch(`http://localhost:8000/all-events/${encodeURIComponent(id)}`, {
+    cache: "no-store",
   });
-  const events = await res.json();
-  const event = events.find((item:EventItem) => item._id === id);
 
-  if (!event) {
+  if (res.status === 400 || res.status === 404) {
     notFound();
   }
+
+  const event: EventItem = await res.json();
 
   return <EventDetails event={event} />;
 }
