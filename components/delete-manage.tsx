@@ -15,10 +15,11 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { EventItem } from "./types"
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { toast } from "./ui/toast";
 
-export function DeleteBtn({ event }: { event?: EventItem }) {
+export function DeleteMngBtn({ event }: { event?: EventItem }) {
+    const router = useRouter()
 
     const handleDelete = async () => {
       const  res = await fetch("http://localhost:8000/all-events", {
@@ -30,12 +31,12 @@ export function DeleteBtn({ event }: { event?: EventItem }) {
         })
 
         if (res.ok) {
+            router.refresh();
             toast.add({
                 type: "success",
                 title: "Deleted the event!",
             })
         }
-        redirect(`/manage-events`);
 
     };
 

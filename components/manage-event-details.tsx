@@ -3,30 +3,30 @@ import Link from "next/link";
 import { EventItem } from "./types";
 import Image from "next/image";
 import { JoinEventPeoples } from "./joinTypes";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth"; 
-import { DeleteBtn } from "./delete-manage";
+
 import { CalendarDays, MapPin } from "lucide-react";
+import EditEventDetail from "./editEventDetails";
+import { DeleteMngInnerBtn } from "./delete-manage-inner";
 
 /* this is event details page */
-export default async function ManageEventDetails({ event, joinedPeople }: { event: EventItem, joinedPeople:JoinEventPeoples[] }) {
-/*  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
- */
-/*   const userEmail = session?.user?.email; 
+export default async function ManageEventDetails({ event, joinedPeople }: { event: EventItem, joinedPeople: JoinEventPeoples[] }) {
+  /*  const session = await auth.api.getSession({
+      headers: await headers(),
+    });
+   */
+  /*   const userEmail = session?.user?.email; 
+  
+    const res = await fetch("http://localhost:8000/joined_people");
+    const data = await res.json();
+   */
 
-  const res = await fetch("http://localhost:8000/joined_people");
-  const data = await res.json();
- */
 
-
-/*   const joinedInfo = data.filter(
-    (el:EventItem) => el._id === event.eventId); */
-/*   const joinedInfo = data.filter(
-    (el: JoinEventPeoples) =>
-      (el.title) === event.title
-  ); */
+  /*   const joinedInfo = data.filter(
+      (el:EventItem) => el._id === event.eventId); */
+  /*   const joinedInfo = data.filter(
+      (el: JoinEventPeoples) =>
+        (el.title) === event.title
+    ); */
 
   /* const handleJoin = async () => {
     const joinedData = {
@@ -71,18 +71,26 @@ export default async function ManageEventDetails({ event, joinedPeople }: { even
       </div>
       <div id="manage-event-text" className=" relative mx-3 mt-[-25px] scroll-mt-24 grid max-w-5xl grid-cols-1 items-start gap-6 sm:mx-auto sm:mt-[-40px] lg:mt-[-55px] lg:grid-cols-[1fr_330px] lg:gap-[45px]">
         <article className="rounded-[20px] bg-white p-[28px_22px] shadow-[0_10px_40px_rgba(55,60,98,0.1)] sm:p-[38px_42px]">
-          <div className="mb-[10px] flex items-center justify-between gap-3 ">
+          <div className="mb-[6px] flex items-center justify-between gap-3 ">
+            <div>
+              <div className="-mt-3.5 mb-10">
+                <Link
+                  href={`/manage-events#manage-event${event._id}`}
+                  className="mb-[18px] border-0 text-ink"
+                >
+                  ← Back
+                </Link>
+              </div>
+              <span className="inline-flex rounded-[20px] bg-[rgba(244,238,255,0.94)] px-[11px] py-[7px] text-[10px] font-extrabold tracking-[0.6px] text-ink uppercase">
+                {event?.type}
+              </span>
+            </div>
 
-            <span className="inline-flex rounded-[20px] bg-[rgba(244,238,255,0.94)] px-[11px] py-[7px] text-[10px] font-extrabold tracking-[0.6px] text-ink uppercase">
-              {event?.type}
-            </span>
-            <Link
-              href={`/manage-events#manage-event${event._id}`}
-              className="mb-[18px] border-0 bg-transparent text-[#717793]"
-            >
-              ← Back to events
-            </Link>
+            <div >
+              <EditEventDetail event={event}></EditEventDetail>
+            </div>
           </div>
+
           <h1 className="my-[14px] text-[29px] tracking-[-1.5px] text-ink sm:text-4xl">
             {event?.title}
           </h1>
@@ -109,7 +117,7 @@ export default async function ManageEventDetails({ event, joinedPeople }: { even
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-1 [&>*+*]:-ml-5">
-                  {joinedPeople.slice(-3).map((person:JoinEventPeoples, ind: number) => {
+                  {joinedPeople.slice(-3).map((person: JoinEventPeoples, ind: number) => {
                     const image = person.joinerImage;
 
                     return image ? (
@@ -141,7 +149,7 @@ export default async function ManageEventDetails({ event, joinedPeople }: { even
             </Button> */}
             <div className=" w-full text-right">
 
-            <DeleteBtn event={event}></DeleteBtn>
+              <DeleteMngInnerBtn event={event}></DeleteMngInnerBtn>
 
             </div>
 

@@ -3,13 +3,12 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import type { EventItem } from "./types";
 import { ArrowRight, MapPin, Users } from "lucide-react";
-import { DeleteBtn } from "./delete-manage";
+import { DeleteMngBtn } from "./delete-manage";
 import Image from "next/image";
-import EditEventDetail from "./editEventDetails";
 
 
 /* This page is all event card design  */
-export default function ManageEventCard({ event }: { event: EventItem}) {
+export default function ManageEventCard({ event }: { event: EventItem }) {
   return (
     <Card id={`manage-event${event._id}`}
       asChild
@@ -33,13 +32,10 @@ export default function ManageEventCard({ event }: { event: EventItem}) {
               "absolute left-[14px] top-[14px]",
             )}/* ekhane manage er kaj baki  */
           >
-            <div className="mb-[10px] flex items-center justify-between gap-3 ">
+            <span >
+              {event?.type}
+            </span>
 
-              <span className="inline-flex rounded-[20px] bg-[rgba(244,238,255,0.94)] px-[11px] py-[5px] text-[10px] font-extrabold tracking-[0.6px] text-ink uppercase">
-                {event?.type}
-              </span>
-
-            </div>
           </span>
           <div className="absolute bottom-[14px] right-[14px] flex h-14 w-[50px] flex-col items-center justify-center rounded-[11px] bg-white shadow-[0_7px_18px_rgba(30,34,65,0.2)]">
             <strong className="font-heading text-xl leading-none font-extrabold text-ink">
@@ -49,10 +45,8 @@ export default function ManageEventCard({ event }: { event: EventItem}) {
           </div>
         </div>
         <div className="p-[22px]">
-          <div className="flex justify-between">
-            <h3 className="mb-[9px] text-lg tracking-[-0.3px] text-ink">{event?.title}</h3>
-            <EditEventDetail event={event}></EditEventDetail>
-          </div>
+          <h3 className="mb-[9px] text-lg tracking-[-0.3px] text-ink">{event?.title}</h3>
+
           <p className="min-h-10 text-[13px] leading-[1.55] text-[#777c93]">{event?.description.slice(0, 100)}...</p>
           <div className="my-[17px] flex flex-wrap gap-x-[15px] gap-y-2 border-t border-[#efedf5] pt-[15px]">
             <span className="flex items-center gap-[5px] text-[11px] text-[#7a7f97]">
@@ -65,12 +59,12 @@ export default function ManageEventCard({ event }: { event: EventItem}) {
             </span>
           </div>
           <div className="flex justify-between"><Link
-            href={`/manage-events/${event._id}`}
+            href={`/manage-events/${event._id}#manage-event-text`}
             className="inline-flex items-center gap-2 border-0 border-b border-[#b9bdd8] bg-transparent px-0 py-1.5 font-bold text-ink"
           >
             View event <ArrowRight size={17} aria-hidden="true" />
           </Link>
-            <DeleteBtn event={event}></DeleteBtn></div>
+            <DeleteMngBtn event={event}></DeleteMngBtn></div>
         </div>
       </article>
     </Card>

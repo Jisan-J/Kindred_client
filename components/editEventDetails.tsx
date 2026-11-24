@@ -39,7 +39,7 @@ export default function EditEventDetail({ event }: { event: EventItem }) {
                 title: "Updated the event!",
             })
         }
-        redirect(`/events/${event._id}`);
+        redirect(`/manage-events`);
     };
     return (
         <Dialog>
