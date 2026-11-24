@@ -8,6 +8,7 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { authClient, signUp } from "@/lib/auth-client";
 import { redirect } from "next/navigation";
 import { toast } from "@/components/ui/toast";
+import { refresh } from "next/cache";
 
 
 export default function SignUpPage() {
@@ -26,7 +27,8 @@ export default function SignUpPage() {
         type: "success",
         title: "Account created!",
       })
-      redirect("/")
+      refresh();
+      redirect("/");
     }
   }
   const handleGoogleLogin = async () => {

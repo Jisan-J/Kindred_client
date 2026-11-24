@@ -47,6 +47,7 @@ export function DeleteJoinBtn({ joinPerson }: { joinPerson: JoinEventPeoples }) 
                 title: "Could not remove the event. Please try again.",
             });
         }
+        
     };
 
     return (

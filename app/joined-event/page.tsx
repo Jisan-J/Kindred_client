@@ -2,10 +2,6 @@ import JoinEvent from "@/components/join-event";
 
 /* This page show the all upcoming events */
 export default async function JoinPage() {
-    const res = await fetch("http://localhost:8000/all-events", {
-    });
-    const allEvents = await res.json();
-
     const joinRes = await fetch("http://localhost:8000/joined_people",{
     });
     const joinPeoples = await joinRes.json();
@@ -25,7 +21,7 @@ export default async function JoinPage() {
                         Find a cause that speaks to you, then take the first step.
                     </p>
                 </div>
-                <JoinEvent allEvents={allEvents} joinPeoples={joinPeoples}></JoinEvent>
+                <JoinEvent alljoinedEvent={joinPeoples}></JoinEvent>
             </main>
         </>
     );

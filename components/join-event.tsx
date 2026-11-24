@@ -10,24 +10,18 @@ import { JoinEventPeoples } from "./joinTypes";
 
 
 /* This page is all event card design  */
-export default function JoinEvent({ allEvents, joinPeoples }: { allEvents: EventItem[], joinPeoples: JoinEventPeoples[] }) {
+export default function JoinEvent({  alljoinedEvent }: {  alljoinedEvent: JoinEventPeoples[] }) {
 
 
     const { data: session } = useSession();
     const userEmail = session?.user?.email;
-    const joinedEvents = allEvents.flatMap((item) => {
-        const joinPerson = joinPeoples.find(
-            (joinEl) => item._id === joinEl.eventId && userEmail === joinEl.email,
-        );
-
-        return joinPerson ? [{ event: item, joinPerson }] : [];
-    });
+    const joinedEvents = alljoinedEvent.filter((item) => item.joinerEmail === userEmail);
     return (
 
         <>{joinedEvents.length > 0 ?
             <div className={cn("grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3", "gap-y-[30px]")}>
-                {joinedEvents.map(({ event, joinPerson }) => (
-                    <JoinEventCard key={event._id} event={event} joinPerson={joinPerson} />
+                {joinedEvents.map(( event:JoinEventPeoples ) => (
+                    <JoinEventCard key={event._id} event={event}  />
                 ))}
             </div> :
             <div className="text-center">

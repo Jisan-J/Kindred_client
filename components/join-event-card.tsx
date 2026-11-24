@@ -1,7 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import type { EventItem } from "./types";
 import { ArrowRight, MapPin, Users } from "lucide-react";
 import Image from "next/image";
 import { DeleteJoinBtn } from "./delete-join";
@@ -9,7 +8,7 @@ import { JoinEventPeoples } from "./joinTypes";
 
 
 /* This page is all event card design  */
-export default function JoinEventCard({ event, joinPerson }: { event: EventItem, joinPerson: JoinEventPeoples }) {
+export default function JoinEventCard({ event }: { event: JoinEventPeoples}) {
   return (
     <Card
       asChild
@@ -18,7 +17,7 @@ export default function JoinEventCard({ event, joinPerson }: { event: EventItem,
         "group gap-0 p-0",
       )}
     >
-      <article>
+      <article id={`joined-event-${event._id}`} className="scroll-mt-24">
         <div className="relative h-[215px] overflow-hidden">
           <Image
             className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
@@ -53,12 +52,12 @@ export default function JoinEventCard({ event, joinPerson }: { event: EventItem,
             
           </div>
           <div className="flex justify-between"><Link
-            href={`/events/${event._id}`}
+            href={`/joined-event/${event._id}#event-details`}
             className="inline-flex items-center gap-2 border-0 border-b border-[#b9bdd8] bg-transparent px-0 py-1.5 font-bold text-ink"
           >
             View event <ArrowRight size={17} aria-hidden="true" />
           </Link>
-            <DeleteJoinBtn joinPerson={joinPerson} />
+            <DeleteJoinBtn joinPerson={event} />
           </div>
         </div>
       </article>

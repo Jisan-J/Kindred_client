@@ -1,11 +1,21 @@
 import ManageEvent from "@/components/manage-event";
+import { EventItem } from "@/components/types";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 /* This page show the all upcoming events */
 export default async function ManagePage() {
     const res = await fetch("http://localhost:8000/all-events", {
     });
-    const allEvents = await res.json();
+    const resEvents = await res.json();
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
 
+    const userEmail = session?.user?.email;
+    const allEvents = resEvents.filter((el: EventItem) => el.createdBy.email === userEmail);
+    
+    /* kaj baki akhono ekhane manage er back  id thik korchi */
     return (
         <>
 

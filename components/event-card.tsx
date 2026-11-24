@@ -16,7 +16,7 @@ export default function EventCard({ event }: { event: EventItem }) {
         "group gap-0 p-0",
       )}
     >
-      <article>
+      <article id={`event-${event._id}`} className="scroll-mt-24">
         <div className="relative h-[215px] overflow-hidden">
           <Image
             className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
@@ -54,7 +54,7 @@ export default function EventCard({ event }: { event: EventItem }) {
             </span>
           </div>
           <Link
-            href={`/events/${event._id}`}
+            href={`/events/${event._id}#event-text`}
             className="inline-flex items-center gap-2 border-0 border-b border-[#b9bdd8] bg-transparent px-0 py-1.5 font-bold text-ink"
           >
             View event <ArrowRight size={17} aria-hidden="true" />

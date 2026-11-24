@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { ArrowRight, CalendarDays, MapPin } from "lucide-react";
 import { EventItem } from "./types";
-import EditEventDetail from "./editEventDetails";
 import Image from "next/image";
 import { useSession } from "@/lib/auth-client";
 import { toast } from "./ui/toast";
@@ -12,58 +11,36 @@ import { JoinEventPeoples } from "./joinTypes";
 import { useEffect, useState } from "react";
 
 /* this is event details page */
-export default function EventDetails({ event, }: { event: EventItem }) {
+export default function EventDetails({ event }: { event: EventItem }) {
   const { data: session } = useSession();
   const userEmail = session?.user?.email;
 
-  const [joinCount, setJoinCount] = useState(0);
-  const [joined, setJoined] = useState([]);
+  const [joined, setJoined] = useState<JoinEventPeoples[]>([]);
 
   useEffect(() => {
     const fetchJoinCount = async () => {
       const res = await fetch("http://localhost:8000/joined_people");
-      const joinData = await res.json();
+      const data = await res.json();
 
-      const joinedPeople = joinData.filter(
+
+      const joinedInfo = data.filter(
         (el: JoinEventPeoples) =>
-          String(el.eventId) === String(event._id)
+          (el.eventId) === event._id
       );
-      setJoined(joinedPeople)
-      setJoinCount(joinedPeople.length);
+      setJoined(joinedInfo);
+
     };
 
     fetchJoinCount();
   }, [event._id]);
 
-
-/*  herer is work deu ekhane aro kaj korte hobe ekhane ami image join kor lok gulor image alada korte cacchi  */
-/*   const [image, setImage] = useState([]);
-
-  useEffect(() => {
-    const fetchJoinImage = async () => {
-      const res = await fetch("http://localhost:8000/all-events");
-      const joinData = await res.json();
-
-      const joinedPeople = joinData.map(
-        (el: EventItem[]) => {
-          return el.filter((e) => {
-            return joined.some((i: JoinEventPeoples) => e._id === i.eventId);
-          })
-        }
-      );
-      setImage(joinedPeople)
-    };
-
-    fetchJoinImage();
-  }, [event._id]); */
-
-
   const handleJoin = async () => {
     const joinedData = {
-      email: userEmail,
+      ...event,
+      joinerImage: session?.user?.image,
+      joinerEmail: userEmail,
       eventId: event._id,
     };
-
     const res = await fetch("http://localhost:8000/joined_people", {
       method: "POST",
       headers: {
@@ -80,33 +57,38 @@ export default function EventDetails({ event, }: { event: EventItem }) {
         title: "Already joined this event",
       })
     } else {
+      setJoined((prev) => [...prev, joinedData as JoinEventPeoples]);
       toast.add({
         type: "success",
         title: "Successfully joined the event!",
       })
     }
+
   };
+
+
 
   return (
     <main className="container mx-auto min-h-[700px] max-w-7xl px-4 pb-20 pt-12 sm:px-6 lg:px-8 lg:pb-[110px] lg:pt-[70px]">
-      <Link
-        href="/events"
-        className="mb-[18px] border-0 bg-transparent text-[#717793]"
-      >
-        ← Back to events
-      </Link>
+
       <div className="relative h-[300px] overflow-hidden rounded-[25px] sm:h-[380px] lg:h-[440px]">
         <img className="size-full object-cover" src={event.image} alt="" />
         <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(39,43,75,0.35),transparent_60%)]" />
       </div>
-      <div className="relative mx-3 mt-[-25px] grid max-w-5xl grid-cols-1 items-start gap-6 sm:mx-auto sm:mt-[-40px] lg:mt-[-55px] lg:grid-cols-[1fr_330px] lg:gap-[45px]">
+      <div id="event-text" className=" relative mx-3 mt-[-25px] scroll-mt-24 grid max-w-5xl grid-cols-1 items-start gap-6 sm:mx-auto sm:mt-[-40px] lg:mt-[-55px] lg:grid-cols-[1fr_330px] lg:gap-[45px]">
         <article className="rounded-[20px] bg-white p-[28px_22px] shadow-[0_10px_40px_rgba(55,60,98,0.1)] sm:p-[38px_42px]">
           <div className="mb-[10px] flex items-center justify-between gap-3 ">
+
 
             <span className="inline-flex rounded-[20px] bg-[rgba(244,238,255,0.94)] px-[11px] py-[7px] text-[10px] font-extrabold tracking-[0.6px] text-ink uppercase">
               {event?.type}
             </span>
-            <EditEventDetail event={event}></EditEventDetail>
+            <Link
+              href={`/events#event-${event._id}`}
+              className="mb-[18px] border-0 bg-transparent text-[#717793]"
+            >
+              ← Back to events
+            </Link>
           </div>
           <h1 className="my-[14px] text-[29px] tracking-[-1.5px] text-ink sm:text-4xl">
             {event?.title}
@@ -121,6 +103,7 @@ export default function EventDetails({ event, }: { event: EventItem }) {
               {event?.location}
             </span>
           </div>
+
           <h3 className="mt-7 text-ink">About this event</h3>
           <p className="text-sm leading-[1.75] text-[#70758c]">
             {event?.description} Together, we&apos;ll make a visible, lasting difference while building
@@ -131,34 +114,28 @@ export default function EventDetails({ event, }: { event: EventItem }) {
         <aside>
           <div className="rounded-[18px] border border-soft bg-mist p-[25px] lg:mt-[90px]">
             <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center [&>*+*]:-ml-2">
-                <span >
-                  {
-                    event.createdBy.image ?
-                      <Image className="grid size-[34px] place-items-center rounded-full border-[3px] border-white bg-ink text-[9px] text-white"
-                        src={event?.createdBy?.image}
-                        height={100}
-                        width={100}
-                        alt={event?.createdBy?.name}
-                      ></Image> : event?.createdBy?.name.charAt(1)
-                  }
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-1 [&>*+*]:-ml-5">
+                  {joined.slice(-3).map((person, ind) => {
+                    const image = person.joinerImage || person.image;
 
-                </span>
-                <span >
+                    return image ? (
+                      <Image
+                        key={person._id ?? ind}
+                        className="size-10 rounded-full border-[3px] border-white bg-ink object-cover object-center"
+                        src={image}
+                        height={50}
+                        width={50}
+                        alt="Participant"
+                      />
+                    ) : null;
+                  })}
                   {
-                    event.createdBy.image ?
-                      <Image className="grid size-[34px] place-items-center rounded-full border-[3px] border-white bg-ink text-[9px] text-white"
-                        src={event?.createdBy?.image}
-                        height={100}
-                        width={100}
-                        alt={event?.createdBy?.name}
-                      ></Image> : event?.createdBy?.name.charAt(1)
-                  }
-
-                </span>
-                <span className="grid size-[34px] place-items-center rounded-full border-[3px] border-white bg-ink text-[9px] text-white" />
+                    joined?.length > 3 && <span className="size-10 rounded-full border-[3px] border-transparent text-ink bg-transparent flex items-center justify-end"
+                    >+{joined?.length - 3}</span>}
+                </div>
               </div>
-              <strong className="text-[13px] text-ink">{joinCount} people are going</strong>
+              <strong className="text-[13px] text-ink">{joined?.length} people are going</strong>
             </div>
 
             <Button onClick={handleJoin}
