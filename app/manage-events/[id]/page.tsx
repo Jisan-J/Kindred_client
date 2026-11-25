@@ -1,4 +1,5 @@
 
+import { notFound } from "next/navigation";
 import { JoinEventPeoples } from "@/components/joinTypes";
 import ManageEventDetails from "@/components/manage-event-details";
 import { EventItem } from "@/components/types";
@@ -19,7 +20,7 @@ export default async function ManageEventId({
     const token = jwtToken?.token
     console.log(token);
 
-    const res = await fetch(`http://localhost:8000/all-events`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-events`, {
         headers: {
             authorization: `Bearer ${token}`
         }
@@ -27,8 +28,11 @@ export default async function ManageEventId({
     const data = await res.json();
     const event = data.find((el: EventItem) => el._id === id);
 
+    if (!event) {
+        notFound();
+    }
 
-    const allRes = await fetch("http://localhost:8000/joined_people", {
+    const allRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`, {
         headers: {
             authorization: `Bearer ${token}`
         }

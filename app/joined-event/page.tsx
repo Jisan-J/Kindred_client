@@ -8,8 +8,7 @@ export default async function JoinPage() {
     headers: await headers()
   })
   const token = jwtToken?.token
-  console.log(token);
-    const joinRes = await fetch("http://localhost:8000/joined_people",{
+    const joinRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`,{
           headers: { "Content-Type": "application/json",
                 authorization:`Bearer ${token}`
              },

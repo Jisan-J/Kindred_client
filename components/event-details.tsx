@@ -19,7 +19,7 @@ export default function EventDetails({ event }: { event: EventItem }) {
 
   useEffect(() => {
     const fetchJoinCount = async () => {
-      const res = await fetch("http://localhost:8000/joined_people");
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`);
       const data = await res.json();
 
 
@@ -41,7 +41,7 @@ export default function EventDetails({ event }: { event: EventItem }) {
       joinerEmail: userEmail,
       eventId: event._id,
     };
-    const res = await fetch("http://localhost:8000/joined_people", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

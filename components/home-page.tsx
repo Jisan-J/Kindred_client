@@ -17,10 +17,10 @@ import { EventItem } from "./types";
 import EventCard from "./event-card";
 
 export async function HomePage() {
-    const res = await fetch("http://localhost:8000/recent-events", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recent-events`, {
   });
   const events = await res.json();
-  const allRes= await fetch ("http://localhost:8000/all-events");
+  const allRes= await fetch (`${process.env.NEXT_PUBLIC_API_URL}/all-events`);
   const allEvents= await allRes.json();
   
 

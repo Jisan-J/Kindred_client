@@ -25,7 +25,7 @@ export function DeleteMngBtn({ event }: { event?: EventItem }) {
     const handleDelete = async () => {
         const { data, error } = await authClient.token();
         const token = data?.token;
-        const res = await fetch("http://localhost:8000/all-events", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-events`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",

@@ -31,7 +31,7 @@ export default function CreateEvent() {
         const {data, error} = await authClient.token();
         const token = data?.token;
         
-        const res = await fetch("http://localhost:8000/all-events", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-events`, {
             method: "POST",
             headers: { "Content-Type": "application/json",
                 authorization:`Bearer ${token}`

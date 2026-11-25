@@ -27,7 +27,7 @@ export function DeleteJoinBtn({ joinPerson }: { joinPerson: JoinEventPeoples }) 
         const token = data?.token;
         
         try {
-            const res = await fetch("http://localhost:8000/joined_people", {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",

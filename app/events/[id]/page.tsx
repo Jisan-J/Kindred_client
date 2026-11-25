@@ -18,7 +18,7 @@ export default async function SingleEventDetails({
   const token = jwtToken?.token
   console.log(token);
   const { id } = await params;
-  const res = await fetch(`http://localhost:8000/all-events/${encodeURIComponent(id)}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${encodeURIComponent(id)}`, {
     cache: "no-store",
     headers: {
       authorization: `Bearer ${token}`

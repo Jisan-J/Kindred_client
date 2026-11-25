@@ -23,7 +23,7 @@ export default function JoinCardtDetails({ event }: { event: JoinEventPeoples })
         const {data, error} = await authClient.token();
         const token = data?.token;
         
-      const res = await fetch("http://localhost:8000/joined_people",{
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`,{
           headers: { "Content-Type": "application/json",
                 authorization:`Bearer ${token}`
              },

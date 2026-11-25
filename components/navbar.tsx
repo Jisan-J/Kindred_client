@@ -39,8 +39,9 @@ export default function Navbar() {
 
   }
   return (
-    <header className="sticky top-0 relative z-[50] h-[68px] border-b border-[#eceaf7] bg-white/70 backdrop-blur-[15px] lg:h-[78px]">
-      <div className="container mx-auto flex h-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className="sticky top-0 z-[50] h-[68px] border-b border-[#eceaf7] bg-white/70 backdrop-blur-[15px] lg:h-[78px]">
+      {/* The mobile grid keeps the menu, logo, and account action on opposite sides. */}
+      <div className="container relative mx-auto grid h-full max-w-7xl grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center px-4 sm:px-6 lg:flex lg:justify-between lg:px-8">
         <Link
           href="/"
           className="hidden lg:inline-flex items-center gap-[10px] border-0 bg-transparent p-0 font-heading text-lg font-extrabold tracking-[-0.8px] text-ink sm:text-xl"
@@ -81,6 +82,7 @@ export default function Navbar() {
           </Link>
         </nav>
 
+        <div className="col-start-3 row-start-1 justify-self-end lg:col-auto lg:row-auto">
         {
           isPending ? <div className="flex items-center gap-2 mx-2 justify-end">
             <Avatar >
@@ -116,24 +118,24 @@ export default function Navbar() {
             </div>
 
               : <div>
-
-                <Link href="/login" className="mx-2">
+                <Link href="/login" className="lg:mx-2">
                   <Button
-                    className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-ink px-[18px] py-[11px] text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)] hidden sm:inline-flex">
-                    Sign In <ArrowRight size={16} aria-hidden="true" />
+                    className=" text-[10px] h-6 md:h-8 inline-flex items-center justify-center gap-[10px] rounded-xl bg-ink md:px-[18px] md:py-[11px] md:text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)] ">
+                    Sign In <ArrowRight size={16} aria-hidden="true" className="hidden md:flex"/>
                   </Button>
                 </Link>
                 <Link href="/register">
                   <Button
-                    className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-transparent  px-[18px] py-[11px] text-sm font-bold text-ink transition-all duration-200  hover:bg-ink hover:text-white hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)] hidden sm:inline-flex">
+                    className="inline-flex items-center justify-center gap-[10px] rounded-xl bg-transparent  px-[18px] py-[11px] text-sm font-bold text-ink transition-all duration-200  hover:bg-ink hover:text-white hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)] hidden lg:inline-flex">
                     Sign Up <ArrowRight size={16} aria-hidden="true" />
                   </Button>
                 </Link>
               </div>
         }
+        </div>
         <Link
           href="/"
-          className="lg:hidden inline-flex items-center gap-[10px] border-0 bg-transparent p-0 font-heading text-lg font-extrabold tracking-[-0.8px] text-ink sm:text-xl"
+          className="col-start-2 row-start-1 inline-flex items-center gap-[10px] border-0 bg-transparent p-0 font-heading text-lg font-extrabold tracking-[-0.8px] text-ink sm:text-xl lg:hidden"
           aria-label="Go to home"
         >
           <span>
@@ -141,7 +143,7 @@ export default function Navbar() {
           </span>
         </Link>
         <button
-          className="border-0 bg-transparent text-ink lg:hidden"
+          className="col-start-1 row-start-1 justify-self-start border-0 bg-transparent text-ink lg:hidden"
           onClick={() => setMenu(!menu)}
           aria-label="Toggle menu"
           aria-expanded={menu}

@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 
 /* This page show the all upcoming events */
 export default async function ManagePage() {
-    const res = await fetch("http://localhost:8000/all-events", {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-events`, {
     });
     const resEvents = await res.json();
     const session = await auth.api.getSession({
