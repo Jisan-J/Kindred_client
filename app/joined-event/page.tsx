@@ -1,8 +1,18 @@
 import JoinEvent from "@/components/join-event";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
 
 /* This page show the all upcoming events */
 export default async function JoinPage() {
+      const jwtToken = await auth.api.getToken({
+    headers: await headers()
+  })
+  const token = jwtToken?.token
+  console.log(token);
     const joinRes = await fetch("http://localhost:8000/joined_people",{
+          headers: { "Content-Type": "application/json",
+                authorization:`Bearer ${token}`
+             },
     });
     const joinPeoples = await joinRes.json();
 

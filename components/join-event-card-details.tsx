@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { CalendarDays, MapPin } from "lucide-react";
 import Image from "next/image";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { JoinEventPeoples } from "./joinTypes";
 import { useEffect, useState } from "react";
 import { DeleteJoinBtnInner } from "./delete-join-inner";
@@ -20,11 +20,18 @@ export default function JoinCardtDetails({ event }: { event: JoinEventPeoples })
 
   useEffect(() => {
     const fetchJoinedPeople = async () => {
-      const res = await fetch("http://localhost:8000/joined_people");
+        const {data, error} = await authClient.token();
+        const token = data?.token;
+        
+      const res = await fetch("http://localhost:8000/joined_people",{
+          headers: { "Content-Type": "application/json",
+                authorization:`Bearer ${token}`
+             },
+      });
 
-      const data = await res.json();
+      const result = await res.json();
 
-      const joinedInfo = data.filter(
+      const joinedInfo = result.filter(
         (el: JoinEventPeoples) => el.eventId === event.eventId
       );
 
@@ -58,9 +65,9 @@ export default function JoinCardtDetails({ event }: { event: JoinEventPeoples })
             </span>
             <Link
               href={`/joined-event#joined-event-${event._id}`}
-              className="mb-[18px] border-0 bg-transparent text-[#717793] "
+              className="mb-[18px] border-0 bg-transparent text-ink "
             >
-              ← Back to events
+              ← Back
             </Link>
             {/*             <EditEventDetail event={event}></EditEventDetail>
  */}          </div>

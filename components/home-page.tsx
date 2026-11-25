@@ -20,6 +20,10 @@ export async function HomePage() {
     const res = await fetch("http://localhost:8000/recent-events", {
   });
   const events = await res.json();
+  const allRes= await fetch ("http://localhost:8000/all-events");
+  const allEvents= await allRes.json();
+  
+
   return (
     <>
       {/* Hero section */}
@@ -76,11 +80,10 @@ export async function HomePage() {
                 <CalendarDays size={20} aria-hidden="true" />
               </span>
               <div>
-                <small className="block text-[9px] tracking-[1px] text-[#9298b2]">NEXT EVENT</small>
+                <small className="block text-[9px] tracking-[1px] text-ink">Hosted</small>
                 <strong className="my-0.5 block font-heading text-[13px] font-bold text-ink">
-                  Plantation Drive
+                  {allEvents.length} Events
                 </strong>
-                <p className="m-0 text-[10px] text-[#858aa0]">Friday · Dhanmondi</p>
               </div>
             </div>
             <div
@@ -99,9 +102,9 @@ export async function HomePage() {
                     "text-lg",
                   )}
                 >
-                  1,284
+                 <span className="text-sm px-2">Join Us</span> 
                 </strong>
-                <p className="m-0 text-[10px] text-[#858aa0]">lives touched this month</p>
+                <p className="m-0 text-[10px] text-[#858aa0]">Those Event </p>
               </div>
             </div>
           </div>
@@ -109,7 +112,7 @@ export async function HomePage() {
       </section>
 
       {/* Event host, lives, hours, community summery section */}
-      <section className="container mx-auto grid max-w-7xl grid-cols-2 items-center gap-5 border-b border-[#eceaf6] bg-white px-4 py-6 sm:flex sm:flex-wrap sm:justify-between sm:px-6 lg:flex-nowrap lg:px-8 lg:py-[27px]">
+   {/*    <section className="container mx-auto grid max-w-7xl grid-cols-2 items-center gap-5 border-b border-[#eceaf6] bg-white px-4 py-6 sm:flex sm:flex-wrap sm:justify-between sm:px-6 lg:flex-nowrap lg:px-8 lg:py-[27px]">
         <p className="m-0 hidden max-w-[100px] text-xs text-[#9296aa] lg:block">
           Together, our community has created
         </p>
@@ -133,7 +136,7 @@ export async function HomePage() {
           <span className="text-xs text-[#7c8098]">Lives impacted</span>
         </div>
       </section>
-
+ */}
       {/* Upcoming events section */}
 
       <section className="container mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 lg:py-24">

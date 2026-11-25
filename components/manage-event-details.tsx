@@ -10,57 +10,6 @@ import { DeleteMngInnerBtn } from "./delete-manage-inner";
 
 /* this is event details page */
 export default async function ManageEventDetails({ event, joinedPeople }: { event: EventItem, joinedPeople: JoinEventPeoples[] }) {
-  /*  const session = await auth.api.getSession({
-      headers: await headers(),
-    });
-   */
-  /*   const userEmail = session?.user?.email; 
-  
-    const res = await fetch("http://localhost:8000/joined_people");
-    const data = await res.json();
-   */
-
-
-  /*   const joinedInfo = data.filter(
-      (el:EventItem) => el._id === event.eventId); */
-  /*   const joinedInfo = data.filter(
-      (el: JoinEventPeoples) =>
-        (el.title) === event.title
-    ); */
-
-  /* const handleJoin = async () => {
-    const joinedData = {
-      ...event,
-      joinerImage: session?.user?.image,
-      joinerEmail: userEmail,
-      eventId: event._id,
-    };
-    const res = await fetch("http://localhost:8000/joined_people", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(joinedData),
-    });
-
-    const data = await res.json();
-
-    if (data.message === "Already joined this event") {
-      toast.add({
-        type: "info",
-        title: "Already joined this event",
-      })
-    } else {
-      toast.add({
-        type: "success",
-        title: "Successfully joined the event!",
-      })
-      refresh();
-    }
-
-  }; */
-
-
 
   return (
     <main className="container mx-auto min-h-[700px] max-w-7xl px-4 pb-20 pt-12 sm:px-6 lg:px-8 lg:pb-[110px] lg:pt-[70px]">

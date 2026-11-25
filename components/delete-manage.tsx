@@ -17,15 +17,19 @@ import { Button } from "@/components/ui/button"
 import { EventItem } from "./types"
 import { redirect, useRouter } from "next/navigation";
 import { toast } from "./ui/toast";
+import { authClient } from "@/lib/auth-client";
 
 export function DeleteMngBtn({ event }: { event?: EventItem }) {
     const router = useRouter()
 
     const handleDelete = async () => {
-      const  res = await fetch("http://localhost:8000/all-events", {
+        const { data, error } = await authClient.token();
+        const token = data?.token;
+        const res = await fetch("http://localhost:8000/all-events", {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
+                authorization: `Bearer ${token}`
             },
             body: JSON.stringify({ id: event?._id }),
         })

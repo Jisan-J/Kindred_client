@@ -18,6 +18,7 @@ import { Pencil } from "lucide-react"
 import { EventItem } from "./types";
 import { redirect } from "next/navigation";
 import { toast } from "./ui/toast";
+import { authClient } from "@/lib/auth-client";
 
 export default function EditEventDetail({ event }: { event: EventItem }) {
 
@@ -26,14 +27,20 @@ export default function EditEventDetail({ event }: { event: EventItem }) {
         const myFormData = new FormData(e.currentTarget);
         const eventFormObj = Object.fromEntries(myFormData.entries());
         eventFormObj.id = event._id;
+        const { data, error } = await authClient.token();
+        const token = data?.token;
 
         const res = await fetch("http://localhost:8000/all-events", {
             method: "PATCH",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json",
+                authorization: `Bearer ${token}`
+
+            },
             body: JSON.stringify(eventFormObj),
 
         })
-         if (res.ok) {
+        if (res.ok) {
             toast.add({
                 type: "success",
                 title: "Updated the event!",
@@ -44,7 +51,7 @@ export default function EditEventDetail({ event }: { event: EventItem }) {
     return (
         <Dialog>
             <DialogTrigger render={<Button type="button" variant="outline" className=" rounded-[20px] bg-[rgba(244,238,255,0.94)]"><Pencil size={'12px'}></Pencil> Edit</Button>} />
-            <DialogContent className="sm:max-w-xl  rounded-[20px] bg-[rgba(244,238,255,0.94)] ">
+            <DialogContent className=" sm:max-w-xl  rounded-[20px] bg-[rgba(244,238,255,0.94)] ">
                 <form onSubmit={handleSubmit}>
                     <DialogHeader>
                         <DialogTitle>Edit Event</DialogTitle>
@@ -86,7 +93,7 @@ export default function EditEventDetail({ event }: { event: EventItem }) {
                     <DialogFooter>
                         <DialogClose render={<Button type="button" variant="outline">Cancel</Button>} />
                         <DialogClose render={<Button type="submit">Save changes</Button>} />
-                        
+
                     </DialogFooter>
                 </form>
             </DialogContent>

@@ -38,7 +38,7 @@ export function Footer() {
             Upcoming events
           </Link>
           <Link
-            href="/#impact"
+            href="#"
             className="block border-0 bg-transparent py-1.5 text-[13px] text-[#aeb3cf] hover:text-white"
           >
             Our impact
@@ -56,7 +56,7 @@ export function Footer() {
             Create an event
           </Link>
           <Link
-            href="/dashboard/joined"
+            href="/joined-event"
             className="block border-0 bg-transparent py-1.5 text-[13px] text-[#aeb3cf] hover:text-white"
           >
             Joined events

@@ -85,9 +85,9 @@ export default function EventDetails({ event }: { event: EventItem }) {
             </span>
             <Link
               href={`/events#event-${event._id}`}
-              className="mb-[18px] border-0 bg-transparent text-[#717793]"
+              className="mb-[18px] border-0 bg-transparent text-ink"
             >
-              ← Back to events
+              ← Back
             </Link>
           </div>
           <h1 className="my-[14px] text-[29px] tracking-[-1.5px] text-ink sm:text-4xl">

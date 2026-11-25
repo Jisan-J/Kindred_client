@@ -48,10 +48,7 @@ export default function EventCard({ event }: { event: EventItem }) {
               <MapPin className="text-[#8e98ce]" size={17} aria-hidden="true" />
               {event?.location}
             </span>
-            <span className="flex items-center gap-[5px] text-[11px] text-[#7a7f97]">
-              <Users className="text-[#8e98ce]" size={17} aria-hidden="true" />
-              {event?.people} going
-            </span>
+            
           </div>
           <Link
             href={`/events/${event._id}#event-text`}

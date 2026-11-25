@@ -24,13 +24,18 @@ export default function CreateEvent() {
             createdBy: {
                 name: userName,
                 email: userEmail,
-                image:userImage,
+                image: userImage,
             },
         };
 
+        const {data, error} = await authClient.token();
+        const token = data?.token;
+        
         const res = await fetch("http://localhost:8000/all-events", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { "Content-Type": "application/json",
+                authorization:`Bearer ${token}`
+             },
             body: JSON.stringify(eventFormObj),
         })
         if (res.ok) {

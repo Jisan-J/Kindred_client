@@ -17,15 +17,20 @@ import { Button } from "@/components/ui/button"
 import { JoinEventPeoples } from "./joinTypes";
 import { redirect } from "next/navigation";
 import { toast } from "./ui/toast";
+import { authClient } from "@/lib/auth-client";
 
 export function DeleteJoinBtnInner({ joinPerson }: { joinPerson: JoinEventPeoples }) {
 
     const handleRemove = async () => {
+          const {data, error} = await authClient.token();
+        const token = data?.token;
+        
         try {
             const res = await fetch("http://localhost:8000/joined_people", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
+                    authorization:`Bearer ${token}`
                 },
                 body: JSON.stringify({ id: joinPerson._id }),
             });
