@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowRight, CalendarDays, MapPin } from "lucide-react";
 import { EventItem } from "./types";
 import Image from "next/image";
-import { useSession } from "@/lib/auth-client";
+import { authClient, useSession } from "@/lib/auth-client";
 import { toast } from "./ui/toast";
 import { JoinEventPeoples } from "./joinTypes";
 import { useEffect, useState } from "react";
@@ -16,14 +16,22 @@ export default function EventDetails({ event }: { event: EventItem }) {
   const userEmail = session?.user?.email;
 
   const [joined, setJoined] = useState<JoinEventPeoples[]>([]);
+  const [isJoining, setIsJoining] = useState(false);
 
   useEffect(() => {
     const fetchJoinCount = async () => {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`);
-      const data = await res.json();
+      const { data, error } = await authClient.token();
+      const token = data?.token;
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`, {
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`
+        },
+      });
+      const result = await res.json();
 
 
-      const joinedInfo = data.filter(
+      const joinedInfo = result.filter(
         (el: JoinEventPeoples) =>
           (el.eventId) === event._id
       );
@@ -35,35 +43,69 @@ export default function EventDetails({ event }: { event: EventItem }) {
   }, [event._id]);
 
   const handleJoin = async () => {
-    const joinedData = {
-      ...event,
-      joinerImage: session?.user?.image,
-      joinerEmail: userEmail,
-      eventId: event._id,
-    };
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(joinedData),
-    });
+    if (isJoining) {
+      return;
+    }
 
-    const data = await res.json();
-
-    if (data.message === "Already joined this event") {
+    if (joined.some((person) => person.joinerEmail === userEmail)) {
       toast.add({
         type: "info",
         title: "Already joined this event",
-      })
-    } else {
+      });
+      return;
+    }
+
+    setIsJoining(true);
+    try {
+      const { data: tokenData, error } = await authClient.token();
+      const token = tokenData?.token;
+      if (error || !token) {
+        throw new Error("Could not verify your session.");
+      }
+
+      const joinedData = {
+        ...event,
+        joinerImage: session?.user?.image,
+        joinerEmail: userEmail,
+        eventId: event._id,
+      };
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(joinedData),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Join request failed with status ${res.status}`);
+      }
+
+      const data = await res.json();
+
+      if (data.message === "Already joined this event") {
+        toast.add({
+          type: "info",
+          title: "Already joined this event",
+        });
+        return;
+      }
+
       setJoined((prev) => [...prev, joinedData as JoinEventPeoples]);
       toast.add({
         type: "success",
         title: "Successfully joined the event!",
-      })
+      });
+    } catch (error) {
+      console.error("Failed to join event", error);
+      toast.add({
+        type: "error",
+        title: "Could not join this event. Please try again.",
+      });
+    } finally {
+      setIsJoining(false);
     }
-
   };
 
 
@@ -75,7 +117,7 @@ export default function EventDetails({ event }: { event: EventItem }) {
         <img className="size-full object-cover" src={event.image} alt="" />
         <div className="absolute inset-0 bg-[linear-gradient(0deg,rgba(39,43,75,0.35),transparent_60%)]" />
       </div>
-      <div id="event-text" className=" relative mx-3 mt-[-25px] scroll-mt-24 grid max-w-5xl grid-cols-1 items-start gap-6 sm:mx-auto sm:mt-[-40px] lg:mt-[-55px] lg:grid-cols-[1fr_330px] lg:gap-[45px]">
+      <div id="event-text" className=" relative mx-3 mt-[-25px] scroll-smooth grid max-w-5xl grid-cols-1 items-start gap-6 sm:mx-auto sm:mt-[-40px] lg:mt-[-55px] lg:grid-cols-[1fr_330px] lg:gap-[45px]">
         <article className="rounded-[20px] bg-white p-[28px_22px] shadow-[0_10px_40px_rgba(55,60,98,0.1)] sm:p-[38px_42px]">
           <div className="mb-[10px] flex items-center justify-between gap-3 ">
 
@@ -138,13 +180,13 @@ export default function EventDetails({ event }: { event: EventItem }) {
               <strong className="text-[13px] text-ink">{joined?.length} people are going</strong>
             </div>
 
-            <Button onClick={handleJoin}
+            <Button onClick={handleJoin} disabled={isJoining}
               className={cn(
                 "inline-flex items-center justify-center gap-[10px] rounded-xl bg-ink px-[22px] py-[15px] text-sm font-bold text-white shadow-[0_8px_18px_rgba(66,72,116,0.18)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#343a64] hover:shadow-[0_11px_25px_rgba(66,72,116,0.24)]",
                 "my-[22px] mb-[10px] w-full",
               )}
             >
-              Join this event <ArrowRight size={18} aria-hidden="true" />
+              {isJoining ? "Joining..." : "Join this event"} <ArrowRight size={18} aria-hidden="true" />
             </Button>
 
 

@@ -9,10 +9,14 @@ export default async function JoinPage() {
   })
   const token = jwtToken?.token
     const joinRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`,{
+          cache: "no-store",
           headers: { "Content-Type": "application/json",
                 authorization:`Bearer ${token}`
              },
     });
+    if (!joinRes.ok) {
+      throw new Error(`Failed to load joined events: ${joinRes.status}`);
+    }
     const joinPeoples = await joinRes.json();
 
     return (

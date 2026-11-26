@@ -12,6 +12,8 @@ import { refresh } from "next/cache";
 
 
 export default function SignUpPage() {
+ 
+
   const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

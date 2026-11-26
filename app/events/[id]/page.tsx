@@ -16,9 +16,8 @@ export default async function SingleEventDetails({
     headers: await headers()
   })
   const token = jwtToken?.token
-  console.log(token);
   const { id } = await params;
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${encodeURIComponent(id)}`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-events/${encodeURIComponent(id)}`, {
     cache: "no-store",
     headers: {
       authorization: `Bearer ${token}`
@@ -27,9 +26,9 @@ export default async function SingleEventDetails({
 
   if (res.status === 400 || res.status === 404) {
     notFound();
-  }
+  } 
 
-  const event: EventItem = await res.json();
+  const event= await res.json();
 
   return <EventDetails event={event} />;
 }

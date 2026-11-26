@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { JoinEventPeoples } from "@/components/joinTypes";
 import ManageEventDetails from "@/components/manage-event-details";
 import { EventItem } from "@/components/types";
-import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 
 
 export default async function ManageEventId({
@@ -14,16 +14,9 @@ export default async function ManageEventId({
 }) {
     const { id } = await params;
 
-    const jwtToken = await auth.api.getToken({
-        headers: await headers()
-    })
-    const token = jwtToken?.token
-    console.log(token);
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-events`, {
-        headers: {
-            authorization: `Bearer ${token}`
-        }
+
     });
     const data = await res.json();
     const event = data.find((el: EventItem) => el._id === id);
@@ -32,10 +25,17 @@ export default async function ManageEventId({
         notFound();
     }
 
+    const jwtToken = await auth.api.getToken({
+        headers: await headers()
+    })
+    const token = jwtToken?.token
     const allRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`, {
+        cache: "no-store",
         headers: {
+            "Content-Type": "application/json",
             authorization: `Bearer ${token}`
-        }
+        },
+
     });
     const allData = await allRes.json();
     const joinedPeople = allData.filter((el: JoinEventPeoples) => el.eventId === event._id);
