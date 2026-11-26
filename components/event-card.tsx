@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import type { EventItem } from "./types";
-import { ArrowRight, MapPin, Users } from "lucide-react";
+import { ArrowRight, MapPin } from "lucide-react";
 import Image from "next/image";
 
 

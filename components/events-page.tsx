@@ -9,6 +9,7 @@ import EventCard from "./event-card";
 /* This page show the all upcoming events */
 export default async function EventsPage() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-events`, {
+   cache: "no-store",
   });
   const events = await res.json();
 

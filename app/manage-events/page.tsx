@@ -5,13 +5,13 @@ import { headers } from "next/headers";
 
 /* This page show the all upcoming events */
 export default async function ManagePage() {
+      const session = await auth.api.getSession({
+        headers: await headers(),
+    });
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-events`, {
     });
     const resEvents = await res.json();
-    const session = await auth.api.getSession({
-        headers: await headers(),
-    });
-
+  
     const userEmail = session?.user?.email;
     const allEvents = resEvents.filter((el: EventItem) => el.createdBy.email === userEmail);
     

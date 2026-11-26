@@ -17,7 +17,7 @@ export default function JoinEventCard({ event }: { event: JoinEventPeoples}) {
         "group gap-0 p-0",
       )}
     >
-      <article id={`joined-event-${event._id}`} className="scroll-mt-24">
+      <article id={`joined-event-${event._id}`} className="scroll-smooth">
         <div className="relative h-[215px] overflow-hidden">
           <Image
             className="size-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
