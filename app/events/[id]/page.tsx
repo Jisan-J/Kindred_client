@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 
-import type { EventItem } from "@/components/types";
 import EventDetails from "@/components/event-details";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";

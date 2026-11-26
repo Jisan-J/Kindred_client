@@ -161,7 +161,7 @@ export function HomePage() {
           </Link>
         </div>
         <Suspense fallback={<EventCardSkeletonGrid count={3} />}>
-          <UpcomingEventsGrid />
+    <UpcomingEventsGrid />
         </Suspense>
       </section>
 
@@ -333,7 +333,9 @@ async function HostedCount() {
 }
 
 async function UpcomingEventsGrid() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recent-events`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/recent-events`,{
+    cache:"no-store"
+  });
   const events = await res.json();
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
