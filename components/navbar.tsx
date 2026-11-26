@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   Avatar,
   AvatarFallback,
@@ -32,12 +32,12 @@ export default function Navbar() {
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     closeProfilePopover();
-    authClient.signOut();
-    redirect("/")
-
-  }
+    await authClient.signOut();
+    // Full reload so the cleared session cookie takes effect immediately.
+    window.location.replace("/");
+  };
   return (
     <header className="sticky top-0 z-[50] h-[68px] border-b border-[#eceaf7] bg-white/70 backdrop-blur-[15px] lg:h-[78px]">
       {/* The mobile grid keeps the menu, logo, and account action on opposite sides. */}

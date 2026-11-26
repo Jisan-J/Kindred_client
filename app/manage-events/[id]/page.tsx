@@ -3,8 +3,7 @@ import { notFound } from "next/navigation";
 import { JoinEventPeoples } from "@/components/joinTypes";
 import ManageEventDetails from "@/components/manage-event-details";
 import { EventItem } from "@/components/types";
-import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+
 
 
 export default async function ManageEventId({
@@ -16,6 +15,7 @@ export default async function ManageEventId({
 
 
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-events`, {
+        cache: "no-store",
 
     });
     const data = await res.json();
@@ -25,16 +25,9 @@ export default async function ManageEventId({
         notFound();
     }
 
-    const jwtToken = await auth.api.getToken({
-        headers: await headers()
-    })
-    const token = jwtToken?.token
     const allRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`, {
         cache: "no-store",
-        headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${token}`
-        },
+      
 
     });
     const allData = await allRes.json();

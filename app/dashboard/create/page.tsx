@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/toast";
 import { authClient } from "@/lib/auth-client";
-import { redirect } from "next/navigation";
 
 export default function CreateEvent() {
     const { data: session } = authClient.useSession();
@@ -44,7 +43,7 @@ export default function CreateEvent() {
                 title: "Created an event!",
             })
         }
-        redirect("/manage-events");
+        window.location.replace("/manage-events");
     };
 
     return (

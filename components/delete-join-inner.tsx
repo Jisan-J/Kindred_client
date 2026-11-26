@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { JoinEventPeoples } from "./joinTypes";
-import { redirect } from "next/navigation";
 import { toast } from "./ui/toast";
 import { authClient } from "@/lib/auth-client";
 
@@ -50,7 +49,7 @@ export function DeleteJoinBtnInner({ joinPerson }: { joinPerson: JoinEventPeople
                 title: "Could not remove the event. Please try again.",
             });
         }
-        redirect("/joined-event")
+        window.location.replace("/joined-event")
         
     };
 

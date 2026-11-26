@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { EventItem } from "./types"
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "./ui/toast";
 import { authClient } from "@/lib/auth-client";
 
@@ -43,7 +43,7 @@ export function DeleteMngInnerBtn({ event }: { event?: EventItem }) {
             })
 
         }
-        redirect("/manage-events")
+        window.location.replace("/manage-events")
 
 
     };

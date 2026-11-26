@@ -16,7 +16,6 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "./ui/textarea"
 import { Pencil } from "lucide-react"
 import { EventItem } from "./types";
-import { redirect } from "next/navigation";
 import { toast } from "./ui/toast";
 import { authClient } from "@/lib/auth-client";
 
@@ -46,7 +45,7 @@ export default function EditEventDetail({ event }: { event: EventItem }) {
                 title: "Updated the event!",
             })
         }
-        redirect(`/manage-events`);
+        window.location.replace(`/manage-events`);
     };
     return (
         <Dialog>

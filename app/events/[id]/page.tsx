@@ -11,16 +11,10 @@ export default async function SingleEventDetails({
   params: Promise<{ id: string }>;
 }) {
 
-  const jwtToken = await auth.api.getToken({
-    headers: await headers()
-  })
-  const token = jwtToken?.token
   const { id } = await params;
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/all-events/${encodeURIComponent(id)}`, {
     cache: "no-store",
-    headers: {
-      authorization: `Bearer ${token}`
-    },
+  
   });
 
   if (res.status === 400 || res.status === 404) {

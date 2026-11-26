@@ -5,33 +5,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
-import { authClient, signUp } from "@/lib/auth-client";
-import { redirect } from "next/navigation";
+import { authClient } from "@/lib/auth-client";
 import { toast } from "@/components/ui/toast";
-import { refresh } from "next/cache";
 
 
 export default function SignUpPage() {
- 
-
   const handleSignUp = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const user = Object.fromEntries(formData.entries()) as { name: string, email: string, password: string, image?: string };
-    const { data, error } = await signUp.email({
+    const { error } = await authClient.signUp.email({
       name: user.name, // required, The name of the user.
       email: user.email, // required, The email address of the user.
       password: user.password, // required, The password of the user. It should be at least 8 characters long and max 128 by default.
       image: user.image
     });
-    if (!error) {
+    if (error) {
       toast.add({
-        type: "success",
-        title: "Account created!",
-      })
-      refresh();
-      redirect("/");
+        type: "error",
+        title: error.message,
+      });
+      return;
     }
+
+    toast.add({
+      type: "success",
+      title: "Account created!",
+    });
+    // Full document load so the new session cookie is picked up fresh —
+    // same one-time refresh as the login page.
+    window.location.replace("/");
   }
   const handleGoogleLogin = async () => {
     await authClient.signIn.social({

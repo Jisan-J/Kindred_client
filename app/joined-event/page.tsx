@@ -1,18 +1,12 @@
 import JoinEvent from "@/components/join-event";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+
 
 /* This page show the all upcoming events */
 export default async function JoinPage() {
-      const jwtToken = await auth.api.getToken({
-    headers: await headers()
-  })
-  const token = jwtToken?.token
+  
     const joinRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/joined_people`,{
           cache: "no-store",
-          headers: { "Content-Type": "application/json",
-                authorization:`Bearer ${token}`
-             },
+         
     });
     if (!joinRes.ok) {
       throw new Error(`Failed to load joined events: ${joinRes.status}`);
