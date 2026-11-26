@@ -51,7 +51,7 @@ export default function EventCard({ event }: { event: EventItem }) {
             
           </div>
           <Link
-            href={`/events/${event._id}#event-text`}
+            href={`/events/${event._id}`}
             className="inline-flex items-center gap-2 border-0 border-b border-[#b9bdd8] bg-transparent px-0 py-1.5 font-bold text-ink"
           >
             View event <ArrowRight size={17} aria-hidden="true" />

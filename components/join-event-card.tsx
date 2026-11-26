@@ -52,7 +52,7 @@ export default function JoinEventCard({ event }: { event: JoinEventPeoples}) {
             
           </div>
           <div className="flex justify-between"><Link
-            href={`/joined-event/${event._id}#event-details`}
+            href={`/joined-event/${event._id}`}
             className="inline-flex items-center gap-2 border-0 border-b border-[#b9bdd8] bg-transparent px-0 py-1.5 font-bold text-ink"
           >
             View event <ArrowRight size={17} aria-hidden="true" />

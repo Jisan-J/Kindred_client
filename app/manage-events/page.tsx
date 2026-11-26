@@ -1,5 +1,6 @@
 import ManageEvent from "@/components/manage-event";
 import { EventItem } from "@/components/types";
+import ScrollToHash from "@/components/scroll-to-hash";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
@@ -19,6 +20,7 @@ export default async function ManagePage() {
     return (
         <>
 
+            <ScrollToHash />
             <main id="events-page" className="container mx-auto min-h-[700px] max-w-7xl px-4 pb-20 pt-12 sm:px-6 lg:px-8 lg:pb-[110px] lg:pt-[70px] ">
                 <div className="mb-[45px] text-center">
                     <span className="inline-flex items-center gap-[7px] text-xs font-extrabold tracking-[1.5px] text-[#6872ac]">

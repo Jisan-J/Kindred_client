@@ -1,4 +1,5 @@
 import JoinEvent from "@/components/join-event";
+import ScrollToHash from "@/components/scroll-to-hash";
 
 
 /* This page show the all upcoming events */
@@ -15,6 +16,7 @@ export default async function JoinPage() {
 
     return (
         <>
+            <ScrollToHash />
 
             <main id="events-page" className="container mx-auto min-h-[700px] max-w-7xl px-4 pb-20 pt-12 sm:px-6 lg:px-8 lg:pb-[110px] lg:pt-[70px] ">
                 <div className="mb-[45px] text-center">

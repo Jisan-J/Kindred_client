@@ -1,5 +1,5 @@
 "use client"
-import type { FormEvent } from "react"
+import { useEffect, type FormEvent } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -9,6 +9,13 @@ import { ArrowRight, Sparkles } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
 
 export default function LoginPage() {
+  // proxy.ts redirects unauthenticated visitors here from a protected page,
+  // and the browser keeps the old scroll position — snap back to the top so
+  // the login form is visible, not the bottom of the page.
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   const handleSignIn = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.currentTarget)
