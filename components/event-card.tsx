@@ -12,7 +12,7 @@ export default function EventCard({ event }: { event: EventItem }) {
     <Card
       asChild
       className={cn(
-        "overflow-hidden rounded-[18px] border border-[#e9e7f2] bg-white shadow-[0_12px_36px_rgba(65,71,112,0.07)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_45px_rgba(65,71,112,0.14)] md:last:hidden lg:last:block",
+        "overflow-hidden rounded-[18px] border border-[#e9e7f2] bg-white shadow-[0_12px_36px_rgba(65,71,112,0.07)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_20px_45px_rgba(65,71,112,0.14)]",
         "group gap-0 p-0",
       )}
     >
